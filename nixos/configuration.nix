@@ -104,7 +104,7 @@
     # Sound
     pipewire
     pulseaudio
-    pamixer
+    ncpamixer
 
     # GPU stuff 
 
@@ -153,6 +153,22 @@
   programs.zsh.enable = true;
   programs.firefox.enable = true;
   programs.hyprland.enable = true;
+  programs.starship.enable = true;
+  programs.starship.settings = {
+    add_newline = false;
+    format = "$directory$character";
+    right_format = "$all";
+    character = {
+   	success_symbol = "[>](bold green)";
+    };
+    cmd_duration = {
+      min_time = 100;
+      show_milliseconds = true;
+    };
+    directory = {
+      truncation_length = 5;
+    };
+  };
 
   users = {
     defaultUserShell = pkgs.zsh;
@@ -184,8 +200,6 @@
   };
 
   services.blueman.enable = true;
-
-
   networking.networkmanager.enable = true;
 
   environment.variables = {
@@ -199,7 +213,7 @@ services.pipewire = {
   alsa.support32Bit = true;
   pulse.enable = true;
   # If you want to use JACK applications, uncomment this
-  #jack.enable = true;
+  jack.enable = true;
 };
 
 services.pipewire.wireplumber.configPackages = [
