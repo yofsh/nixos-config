@@ -1,12 +1,12 @@
+{ config, lib, pkgs, ... }:
+
 {
-  imports = [
-    ./packages.nix
-  ];
 
-  disabledModules = [
-    ./modules/xserver.nix
-  ];
 
+  imports =
+    [ # Include the results of the hardware scan.
+      ./hardware-configuration.nix
+    ];
 
   nixpkgs.config = {
     allowUnfree = true;
@@ -19,7 +19,6 @@
     # walker TODO
     anyrun
     mpv
-    asusd
     swayimg
 
     # Coding stuff
@@ -59,7 +58,6 @@
     hyperfine
     ripgrep
     fd
-    sed
     bc
     jq
     qrencode
@@ -78,8 +76,6 @@
     bluez
     bluez-tools
     udiskie
-
-    ufw
 
     ffmpeg
     light
@@ -118,7 +114,7 @@
     satty
     wf-recorder
 
-    nvim
+    neovim
 
     # Other
     home-manager
@@ -148,17 +144,15 @@
   system.stateVersion = "23.05"; # Don't change it bro
 
   virtualisation.docker.enable = true;
- virtualisation.libvirtd.enable = true;
   programs.virt-manager = {
     enable = true;
-    package = pkgs-stable.virt-manager;
   };
   services.asusd.enable = true;
 
-  programs.noisetorch.enable = true
+  programs.noisetorch.enable = true;
   programs.zsh.enable = true;
   programs.firefox.enable = true;
-  programs.hyprland.enable = true
+  programs.hyprland.enable = true;
 
   users = {
     defaultUserShell = pkgs.zsh;
@@ -166,7 +160,7 @@
     users.fobos = {
       isNormalUser = true;
      description = "fobos";
-      extraGroups = [ "networkmanager" "wheel" "input" "libvirtd", "docker" ];
+      extraGroups = [ "networkmanager" "wheel" "input" "libvirtd" "docker" ];
       packages = with pkgs; [];
     };
   };
@@ -177,7 +171,6 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.kernelModules = [ "amdgpu" ];
-  boot.kernelParams = [ "" ]; 
 
   hardware.bluetooth = {
     enable = true;
