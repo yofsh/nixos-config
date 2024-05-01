@@ -13,7 +13,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, nixpkgs-stable, home-manager, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, ... }@inputs:
 
     let
       system = "x86_64-linux";
@@ -21,7 +21,7 @@
     in {
 
     nixosConfigurations.laptop = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
+      inherit system;
       modules = [./nixos/configuration.nix];
     };
 
