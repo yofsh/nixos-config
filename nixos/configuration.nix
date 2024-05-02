@@ -162,6 +162,7 @@
 
   programs.noisetorch.enable = true;
   programs.zsh.enable = true;
+  programs.zsh.syntaxHighlighting.enable
   programs.firefox.enable = true;
 
   #Hyprland

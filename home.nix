@@ -6,6 +6,11 @@
   link = config.lib.file.mkOutOfStoreSymlink;
   dotfiles = "${config.home.homeDirectory}/dotfiles";
 in {
+
+	imports = [
+    ./xdg.nix
+  ];
+
   home.username = "fobos";
   home.homeDirectory = "/home/fobos";
 
