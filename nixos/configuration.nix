@@ -1,11 +1,12 @@
-{ config, lib, pkgs, ... }:
 {
-
-
-  imports =
-    [
-      ./hardware-configuration.nix
-    ];
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
+  imports = [
+    ./hardware-configuration.nix
+  ];
 
   nixpkgs.config = {
     allowUnfree = true;
@@ -26,8 +27,7 @@
     nodejs
     yarn
 
-
-#TUI utils
+    #TUI utils
     htop
     glances
     kmon
@@ -45,6 +45,7 @@
     pulsemixer
     lnav
     yazi
+    gping
 
     # CLI utils
     neofetch
@@ -54,6 +55,9 @@
     git
     grc
     nix-index
+    nix-inspect
+    nh
+
     hyperfine
     ripgrep
     fd
@@ -70,7 +74,6 @@
     smartmontools
     wev
     zbar
-
 
     bluez
     bluez-tools
@@ -91,9 +94,13 @@
     # cliphist ?
 
     # WMs and stuff
-    hyprland
-    hyprpaper
+    pyprland
     hyprpicker
+    hyprcursor
+    hyprlock
+    hypridle
+    hyprpaper
+
     # seatd
     xdg-desktop-portal-hyprland
     dunst
@@ -104,8 +111,9 @@
     pipewire
     pulseaudio
     ncpamixer
+    usbutils
 
-    # GPU stuff 
+    # GPU stuff
 
     # Screenshotting
     grim
@@ -113,7 +121,11 @@
     satty
     wf-recorder
 
+    aichat
+
     neovim
+
+    plymouth
 
     # Other
     home-manager
@@ -125,20 +137,19 @@
     jetbrains-mono
     noto-fonts
     noto-fonts-emoji
-# noto-fonts-emoji-blob-bin
+    # noto-fonts-emoji-blob-bin
     twemoji-color-font
     font-awesome
     powerline-fonts
     powerline-symbols
-    (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
+    (nerdfonts.override {fonts = ["NerdFontsSymbolsOnly"];})
   ];
-
 
   networking.hostName = "laptop";
   time.timeZone = "Europe/Madrid";
   i18n.defaultLocale = "en_US.UTF-8";
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ]; # Enabling flakes
+  nix.settings.experimental-features = ["nix-command" "flakes"]; # Enabling flakes
 
   system.stateVersion = "23.05"; # Don't change it bro
 
@@ -147,18 +158,24 @@
     enable = true;
   };
   services.asusd.enable = true;
+  services.upower.enable = true;
 
   programs.noisetorch.enable = true;
   programs.zsh.enable = true;
   programs.firefox.enable = true;
+
+  #Hyprland
   programs.hyprland.enable = true;
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  environment.sessionVariables.WLR_NO_HARDWARE_CURSORS = "1";
+
   programs.starship.enable = true;
   programs.starship.settings = {
     add_newline = false;
     format = "$directory$character";
     right_format = "$all";
     character = {
-   	success_symbol = "[>](bold green)";
+      success_symbol = "[>](bold green)";
     };
     cmd_duration = {
       min_time = 100;
@@ -174,18 +191,24 @@
 
     users.fobos = {
       isNormalUser = true;
-     description = "fobos";
-      extraGroups = [ "networkmanager" "wheel" "input" "libvirtd" "docker" ];
+      description = "fobos";
+      extraGroups = ["networkmanager" "wheel" "input" "libvirtd" "docker"];
       packages = with pkgs; [];
     };
   };
 
-  # Enable automatic login for the user.
   services.getty.autologinUser = "fobos";
 
+  #boot
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.initrd.kernelModules = [ "amdgpu" ];
+  boot.loader.timeout = 1;
+  boot.initrd.verbose = false;
+  boot.consoleLogLevel = 0;
+  boot.kernelParams = ["quiet" "udev.log_level=0" "amdgpu"];
+  boot.plymouth = {
+    enable = true;
+  };
 
   hardware.bluetooth = {
     enable = true;
@@ -203,30 +226,32 @@
 
   environment.variables = {
     EDITOR = "nvim";
+    FLAKE = "/home/fobos/nix";
   };
 
-security.rtkit.enable = true;
-services.pipewire = {
-  enable = true;
-  alsa.enable = true;
-  alsa.support32Bit = true;
-  pulse.enable = true;
-  # If you want to use JACK applications, uncomment this
-  jack.enable = true;
-};
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # If you want to use JACK applications, uncomment this
+    jack.enable = true;
+  };
 
-services.pipewire.wireplumber.configPackages = [
-	(pkgs.writeTextDir "share/wireplumber/bluetooth.lua.d/51-bluez-config.lua" ''
-		bluez_monitor.properties = {
-			["bluez5.enable-sbc-xq"] = true,
-			["bluez5.enable-msbc"] = true,
-			["bluez5.enable-hw-volume"] = true,
-			["bluez5.headset-roles"] = "[ hsp_hs hsp_ag hfp_hf hfp_ag ]"
-		}
-	'')
-];
-
+  services.pipewire.wireplumber.configPackages = [
+    (pkgs.writeTextDir "share/wireplumber/bluetooth.lua.d/51-bluez-config.lua" ''
+      bluez_monitor.properties = {
+      	["bluez5.enable-sbc-xq"] = true,
+      	["bluez5.enable-msbc"] = true,
+      	["bluez5.enable-hw-volume"] = true,
+      	["bluez5.headset-roles"] = "[ hsp_hs hsp_ag hfp_hf hfp_ag ]"
+      }
+    '')
+  ];
 
   services.fstrim.enable = true;
-
+  services.fprintd = {
+    enable = true;
+  };
 }
