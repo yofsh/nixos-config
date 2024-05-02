@@ -10,8 +10,13 @@
   #home.packages = [
   #];
 
-  #home.stateVersion = "unstable";
+  home.stateVersion = "24.05";
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+
+
+  home.file = {
+    ".config/hyprland/hyprland.conf".source = ./dotfiles/hyprland.conf;
+  };
 }
