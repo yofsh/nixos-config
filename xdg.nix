@@ -26,14 +26,15 @@ in {
   xdg = {
     userDirs = {
       enable = true;
-      documents = "$HOME/other";
-      download = "$HOME/download";
+      createDirectories = true;
+      documents = "$HOME/docs";
+      download = "$HOME/ds";
       videos = "$HOME/vids";
       music = "$HOME/music";
       pictures = "$HOME/pics";
-      desktop = "$HOME/other";
-      publicShare = "$HOME/other";
-      templates = "$HOME/other";
+      desktop = "$HOME/desktop";
+      publicShare = "$HOME/share";
+      templates = "$HOME/docs/templates";
     };
     mimeApps.enable = true;
     mimeApps.associations.added = associations;
