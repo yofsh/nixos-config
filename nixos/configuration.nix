@@ -161,10 +161,20 @@
   services.upower.enable = true;
 
   programs.noisetorch.enable = true;
-  programs.zsh.enable = true;
-  programs.zsh.syntaxHighlighting.enable = true;
-  programs.firefox.enable = true;
+  programs.zsh = {
+    enable = true;
+    enableCompletion = true;
+    syntaxHighlighting = {
+        enable = true;
+        patterns = {"rm -rf *" = "fg=black,bg=red";};
+        styles = {"alias" = "fg=magenta";};
+        highlighters = ["main" "brackets" "pattern"];
+      };
+    };
+    autosuggestions.enable = true;
+  };
 
+  programs.firefox.enable = true;
   #Hyprland
   programs.hyprland.enable = true;
   environment.sessionVariables.NIXOS_OZONE_WL = "1";

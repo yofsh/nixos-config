@@ -9,6 +9,7 @@ in {
 
 	imports = [
     ./xdg.nix
+    ./firefox.nix
   ];
 
   home.username = "fobos";
@@ -35,10 +36,12 @@ in {
     "waybar/config".source = link "${dotfiles}/waybar/config";
     "waybar/style.css".source = link "${dotfiles}/waybar/style.css";
     "dunst/dunstrc".source = link "${dotfiles}/dunst/dunstrc";
+    "tridactyl/tridactylrc".source = link "${dotfiles}/firefox/tridactylrc";
   };
 
   home.file = {
     ".config/testfile".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/testfile";
+    ".zshrc".source = link "${dotfiles}/.zshrc";
   };
 
   home.sessionVariables = {
