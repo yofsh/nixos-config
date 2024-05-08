@@ -28,7 +28,7 @@ in {
       enable = true;
       createDirectories = true;
       documents = "$HOME/docs";
-      download = "$HOME/ds";
+      download = "$HOME/dl";
       videos = "$HOME/vids";
       music = "$HOME/music";
       pictures = "$HOME/pics";

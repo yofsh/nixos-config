@@ -5,18 +5,16 @@ in
 {
   programs.firefox = {
     enable = true;
+    package = pkgs.firefox.override {
+      cfg = {
+        enableTridactylNative = true;
+      };
+    };
     profiles.${username} = {
       name = "${username}";
-      settings = {
-        CaptivePortal = true;
-        DisableFirefoxStudies = true;
-        DisablePocket = true;
-        DisableTelemetry = true;
-        DisableFirefoxAccounts = false;
-        NoDefaultBookmarks = true;
-        OfferToSaveLogins = false;
-        OfferToSaveLoginsDefault = false;
-        PasswordManagerEnabled = false;
+       settings = {
+        "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+        "browser.aboutConfig.showWarning" = false;
       };
       isDefault = true;
       extensions = with pkgs.nur.repos.rycee.firefox-addons; [

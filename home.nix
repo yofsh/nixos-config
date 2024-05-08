@@ -9,7 +9,7 @@ in {
 
 	imports = [
     ./xdg.nix
-    ./firefox.nix
+    ./nixos/firefox.nix
   ];
 
   home.username = "fobos";

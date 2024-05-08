@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nur.url = "github:nix-community/NUR";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -13,12 +14,18 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, nur, ... }@inputs:
+
 
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
     in {
+
+
+    nixpkgs.overlays = [
+      inputs.nur.overlay
+    ];
 
     nixosConfigurations.laptop = nixpkgs.lib.nixosSystem {
       inherit system;
@@ -27,7 +34,11 @@
 
     homeConfigurations.fobos = home-manager.lib.homeManagerConfiguration {
       inherit pkgs;
-      modules = [ ./home.nix ];
+      modules = [ 
+        ./home.nix
+        {nixpkgs.overlays = [nur.overlay];}
+
+      ];
     };
   };
 }

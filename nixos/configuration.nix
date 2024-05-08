@@ -15,11 +15,19 @@
   environment.systemPackages = with pkgs; [
     # Desktop apps
     firefox
+(google-chrome.override {
+      commandLineArgs = [
+        "--enable-features=UseOzonePlatform"
+        "--ozone-platform=wayland"
+      ];
+    })
     foot
-    # walker TODO
+    #TODO: walker
     anyrun
     mpv
     swayimg
+
+    orca-slicer
 
     # Coding stuff
     gnumake
@@ -100,6 +108,7 @@
     hyprlock
     hypridle
     hyprpaper
+    brightnessctl
 
     # seatd
     xdg-desktop-portal-hyprland
@@ -170,11 +179,38 @@
         styles = {"alias" = "fg=magenta";};
         highlighters = ["main" "brackets" "pattern"];
       };
-    };
+
     autosuggestions.enable = true;
-  };
+    };
 
   programs.firefox.enable = true;
+
+  programs.firefox.policies =   {
+        NewTabPage = false;
+        CaptivePortal = true;
+        DisableFirefoxStudies = true;
+        DisablePocket = true;
+        DisableTelemetry = true;
+        NoDefaultBookmarks = true;
+        OfferToSaveLogins = false;
+        OfferToSaveLoginsDefault = false;
+        PasswordManagerEnabled = false;
+        FirefoxHome = {
+          Search = true;
+          Pocket = false;
+          Snippets = false;
+          TopSites = false;
+          Highlights = false;
+        };
+        UserMessaging = {
+          ExtensionRecommendations = false;
+          SkipOnboarding = true;
+        };
+        Preferences = {
+          "ui.key.menuAccessKeyFocuses" = { Status = "locked"; Value = false; };
+        };
+  };
+
   #Hyprland
   programs.hyprland.enable = true;
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
@@ -234,11 +270,6 @@
 
   services.blueman.enable = true;
   networking.networkmanager.enable = true;
-
-  environment.variables = {
-    EDITOR = "nvim";
-    FLAKE = "/home/fobos/nix";
-  };
 
   security.rtkit.enable = true;
   services.pipewire = {

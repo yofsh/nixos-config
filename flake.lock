@@ -235,6 +235,21 @@
         "type": "github"
       }
     },
+    "nur": {
+      "locked": {
+        "lastModified": 1714822436,
+        "narHash": "sha256-QnWfY6LlKBi5asOFaAe86A1rejF2LFzIRCzWZUUZvMc=",
+        "owner": "nix-community",
+        "repo": "NUR",
+        "rev": "33f7913ac4b94015e465b9be78f90c5df6bfa498",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "NUR",
+        "type": "github"
+      }
+    },
     "pre-commit-hooks": {
       "inputs": {
         "flake-compat": "flake-compat_2",
@@ -267,7 +282,8 @@
       "inputs": {
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
-        "nixvim": "nixvim"
+        "nixvim": "nixvim",
+        "nur": "nur"
       }
     },
     "systems": {
