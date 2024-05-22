@@ -12,6 +12,14 @@ in {
     ./nixos/firefox.nix
   ];
 
+  # home.activation.preActivation.setupDotfiles = pkgs.writeShellScriptBin "setup-dotfiles" ''
+  #       if [[ ! -d "$HOME/dotfiles" ]]; then
+  #         git clone git@github.com:yofsh/dotfiles.git "$HOME/dotfiles"
+  #       fi
+  #     '';
+  #   };
+  # };
+
   home.username = "fobos";
   home.homeDirectory = "/home/fobos";
 
@@ -19,6 +27,7 @@ in {
   home.packages = [
     pkgs.libnotify
     pkgs.alejandra
+    pkgs.playerctl
   ];
 
   home.stateVersion = "24.05";
@@ -29,9 +38,21 @@ in {
 
   services.dunst.enable = true;
 
+  services.udiskie.enable = true;
+  services.udiskie.automount = true;
+  services.udiskie.notify = true;         
+
+  services.playerctld.enable = true;
+
+  programs.git.enable = true;
+  programs.git.userName = "Oleksandr Yaroshenko";
+  programs.git.userEmail = "to@yof.sh";
+
   xdg.configFile = {
     "hypr/hyprland.conf".source = link "${dotfiles}/hypr/hyprland.conf";
     "hypr/hyprlock.conf".source = link "${dotfiles}/hypr/hyprlock.conf";
+    "hypr/hypridle.conf".source = link "${dotfiles}/hypr/hypridle.conf";
+    "hypr/hyprpaper.conf".source = link "${dotfiles}/hypr/hyprpaper.conf";
     "foot/foot.ini".source = link "${dotfiles}/foot/foot.ini";
     "waybar/config".source = link "${dotfiles}/waybar/config";
     "waybar/style.css".source = link "${dotfiles}/waybar/style.css";
@@ -64,8 +85,8 @@ in {
     };
 
     iconTheme = {
-      package = pkgs.gnome.adwaita-icon-theme;
-      name = "Adwaita";
+      package = pkgs.paper-icon-theme;
+      name = "Paper";
     };
 
     font = {

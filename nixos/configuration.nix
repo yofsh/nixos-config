@@ -56,7 +56,7 @@
     gping
 
     # CLI utils
-    neofetch
+    fastfetch
     file
     tree
     wget
@@ -65,6 +65,7 @@
     nix-index
     nix-inspect
     nh
+    trash-cli
 
     hyperfine
     ripgrep
@@ -112,6 +113,8 @@
 
     # seatd
     xdg-desktop-portal-hyprland
+    xdg-user-dirs
+    wdisplays
     dunst
     waybar
     gammastep
@@ -155,6 +158,10 @@
   ];
 
   networking.hostName = "laptop";
+  networking.hosts = {
+    "192.168.1.50" = [ "srv" ];
+  };
+
   time.timeZone = "Europe/Madrid";
   i18n.defaultLocale = "en_US.UTF-8";
 
@@ -246,16 +253,22 @@
 
   services.getty.autologinUser = "fobos";
 
+services.logind = {
+  lidSwitch = "ignore";
+};
+
   #boot
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.loader.timeout = 1;
-  boot.initrd.verbose = false;
-  boot.consoleLogLevel = 0;
-  boot.kernelParams = ["quiet" "udev.log_level=0" "amdgpu"];
-  boot.plymouth = {
-    enable = true;
-  };
+  # boot.initrd.verbose = false;
+  # boot.consoleLogLevel = 0;
+  # boot.kernelParams = ["quiet" "udev.log_level=0" "amdgpu"];
+  boot.kernelParams = ["amdgpu"];
+  # boot.plymouth = {
+  #   enable = true;
+  # };
 
   hardware.bluetooth = {
     enable = true;
