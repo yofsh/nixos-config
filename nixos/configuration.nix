@@ -1,8 +1,8 @@
 {
   config,
-  lib,
-  pkgs,
-  ...
+    lib,
+    pkgs,
+    ...
 }: {
   imports = [
     ./hardware-configuration.nix
@@ -13,29 +13,31 @@
   };
 
   environment.systemPackages = with pkgs; [
-    # Desktop apps
+# Desktop apps
     firefox
-(google-chrome.override {
-      commandLineArgs = [
-        "--enable-features=UseOzonePlatform"
-        "--ozone-platform=wayland"
-      ];
-    })
-    foot
-    #TODO: walker
+      (google-chrome.override {
+       commandLineArgs = [
+       "--enable-features=UseOzonePlatform"
+       "--ozone-platform=wayland"
+       ];
+       })
+  foot
+#TODO: walker
     anyrun
     mpv
     swayimg
 
+
     orca-slicer
 
-    # Coding stuff
+# Coding stuff
     gnumake
     gcc
     nodejs
+    python3
     yarn
 
-    #TUI utils
+#TUI utils
     htop
     glances
     kmon
@@ -55,7 +57,7 @@
     yazi
     gping
 
-    # CLI utils
+# CLI utils
     fastfetch
     file
     tree
@@ -66,6 +68,7 @@
     nix-inspect
     nh
     trash-cli
+    imagemagick
 
     hyperfine
     ripgrep
@@ -93,16 +96,17 @@
     ntfs3g
     yt-dlp
 
-    # GUI utils
+# GUI utils
     zsh
     starship
 
-    # Wayland stuff
+# Wayland stuff
     xwayland
     wl-clipboard
-    # cliphist ?
+    wtype
+# cliphist ?
 
-    # WMs and stuff
+# WMs and stuff
     pyprland
     hyprpicker
     hyprcursor
@@ -111,7 +115,7 @@
     hyprpaper
     brightnessctl
 
-    # seatd
+# seatd
     xdg-desktop-portal-hyprland
     xdg-user-dirs
     wdisplays
@@ -119,42 +123,39 @@
     waybar
     gammastep
 
-    # Sound
+# Sound
     pipewire
     pulseaudio
     ncpamixer
     usbutils
 
-    # GPU stuff
+# GPU stuff
 
-    # Screenshotting
+# Screenshotting
     grim
     slurp
     satty
     wf-recorder
 
     aichat
-
-    neovim
-
     plymouth
 
-    # Other
+# Other
     home-manager
     materia-theme
     papirus-icon-theme
-  ];
+    ];
 
   fonts.packages = with pkgs; [
     jetbrains-mono
-    noto-fonts
-    noto-fonts-emoji
-    # noto-fonts-emoji-blob-bin
-    twemoji-color-font
-    font-awesome
-    powerline-fonts
-    powerline-symbols
-    (nerdfonts.override {fonts = ["NerdFontsSymbolsOnly"];})
+      noto-fonts
+      noto-fonts-emoji
+# noto-fonts-emoji-blob-bin
+      twemoji-color-font
+      font-awesome
+      powerline-fonts
+      powerline-symbols
+      (nerdfonts.override {fonts = ["NerdFontsSymbolsOnly"];})
   ];
 
   networking.hostName = "laptop";
@@ -167,115 +168,124 @@
 
   nix.settings.experimental-features = ["nix-command" "flakes"]; # Enabling flakes
 
-  system.stateVersion = "23.05"; # Don't change it bro
+    system.stateVersion = "23.05"; # Don't change it bro
 
-  virtualisation.docker.enable = true;
+    virtualisation.docker.enable = true;
   programs.virt-manager = {
     enable = true;
   };
   services.asusd.enable = true;
   services.upower.enable = true;
+  programs.light.enable = true;
+
+  programs.neovim = {
+    enable = true;
+    viAlias = true;
+    vimAlias = true;
+  };
 
   programs.noisetorch.enable = true;
   programs.zsh = {
     enable = true;
     enableCompletion = true;
     syntaxHighlighting = {
-        enable = true;
-        patterns = {"rm -rf *" = "fg=black,bg=red";};
-        styles = {"alias" = "fg=magenta";};
-        highlighters = ["main" "brackets" "pattern"];
-      };
+      enable = true;
+      patterns = {"rm -rf *" = "fg=black,bg=red";};
+      styles = {"alias" = "fg=magenta";};
+      highlighters = ["main" "brackets" "pattern"];
+    };
 
     autosuggestions.enable = true;
-    };
+  };
 
   programs.firefox.enable = true;
   programs.steam.enable = true;
   programs.steam.gamescopeSession.enable = true; 
 
-	hardware.nvidia.prime = {
-		offload = {
-			enable = true;
-			enableOffloadCmd = true;
-		};
-		# Make sure to use the correct Bus ID values for your system!
-		nvidiaBusId = "PCI:69:0:0";
+  hardware.nvidia.prime = {
+    offload = {
+      enable = true;
+      enableOffloadCmd = true;
+    };
+# Make sure to use the correct Bus ID values for your system!
+    nvidiaBusId = "PCI:69:0:0";
     amdgpuBusId = "PCI:01:0:0"; 
-	};
+  };
 
- hardware.opengl = {
+  hardware.opengl = {
     enable = true;
     driSupport = true;
     driSupport32Bit = true;
   };
 
-  # Load nvidia driver for Xorg and Wayland
+# Load nvidia driver for Xorg and Wayland
   services.xserver.videoDrivers = ["nvidia"];
 
   hardware.nvidia = {
 
-    # Modesetting is required.
+# Modesetting is required.
     modesetting.enable = true;
 
-    # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
-    # Enable this if you have graphical corruption issues or application crashes after waking
-    # up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead 
-    # of just the bare essentials.
+# Nvidia power management. Experimental, and can cause sleep/suspend to fail.
+# Enable this if you have graphical corruption issues or application crashes after waking
+# up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead 
+# of just the bare essentials.
     powerManagement.enable = false;
 
-    # Fine-grained power management. Turns off GPU when not in use.
-    # Experimental and only works on modern Nvidia GPUs (Turing or newer).
+# Fine-grained power management. Turns off GPU when not in use.
+# Experimental and only works on modern Nvidia GPUs (Turing or newer).
     powerManagement.finegrained = false;
 
-    # Use the NVidia open source kernel module (not to be confused with the
-    # independent third-party "nouveau" open source driver).
-    # Support is limited to the Turing and later architectures. Full list of 
-    # supported GPUs is at: 
-    # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus 
-    # Only available from driver 515.43.04+
-    # Currently alpha-quality/buggy, so false is currently the recommended setting.
+# Use the NVidia open source kernel module (not to be confused with the
+# independent third-party "nouveau" open source driver).
+# Support is limited to the Turing and later architectures. Full list of 
+# supported GPUs is at: 
+# https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus 
+# Only available from driver 515.43.04+
+# Currently alpha-quality/buggy, so false is currently the recommended setting.
     open = false;
 
-    # Enable the Nvidia settings menu,
-	# accessible via `nvidia-settings`.
+# Enable the Nvidia settings menu,
+# accessible via `nvidia-settings`.
     nvidiaSettings = true;
 
-    # Optionally, you may need to select the appropriate driver version for your specific GPU.
+# Optionally, you may need to select the appropriate driver version for your specific GPU.
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 
 
   programs.firefox.policies =   {
-        NewTabPage = false;
-        CaptivePortal = true;
-        DisableFirefoxStudies = true;
-        DisablePocket = true;
-        DisableTelemetry = true;
-        NoDefaultBookmarks = true;
-        OfferToSaveLogins = false;
-        OfferToSaveLoginsDefault = false;
-        PasswordManagerEnabled = false;
-        FirefoxHome = {
-          Search = true;
-          Pocket = false;
-          Snippets = false;
-          TopSites = false;
-          Highlights = false;
-        };
-        UserMessaging = {
-          ExtensionRecommendations = false;
-          SkipOnboarding = true;
-        };
-        Preferences = {
-          "ui.key.menuAccessKeyFocuses" = { Status = "locked"; Value = false; };
-        };
+    NewTabPage = false;
+    CaptivePortal = true;
+    DisableFirefoxStudies = true;
+    DisablePocket = true;
+    DisableTelemetry = true;
+    NoDefaultBookmarks = true;
+    OfferToSaveLogins = false;
+    OfferToSaveLoginsDefault = false;
+    PasswordManagerEnabled = false;
+    FirefoxHome = {
+      Search = true;
+      Pocket = false;
+      Snippets = false;
+      TopSites = false;
+      Highlights = false;
+    };
+    UserMessaging = {
+      ExtensionRecommendations = false;
+      SkipOnboarding = true;
+    };
+    Preferences = {
+      "ui.key.menuAccessKeyFocuses" = { Status = "locked"; Value = false; };
+    };
   };
 
-  #Hyprland
+#Hyprland
   programs.hyprland.enable = true;
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
   environment.sessionVariables.WLR_NO_HARDWARE_CURSORS = "1";
+  environment.sessionVariables.BROWSER = "firefox";
+  environment.sessionVariables.EDITOR = "nvim";
 
   programs.starship.enable = true;
   programs.starship.settings = {
@@ -300,29 +310,30 @@
     users.fobos = {
       isNormalUser = true;
       description = "fobos";
-      extraGroups = ["networkmanager" "wheel" "input" "libvirtd" "docker"];
+      extraGroups = ["networkmanager" "wheel" "input" "libvirtd" "docker" "video"];
       packages = with pkgs; [];
     };
   };
 
   services.getty.autologinUser = "fobos";
 
-services.logind = {
-  lidSwitch = "ignore";
-};
+  services.logind = {
+    lidSwitch = "ignore";
+  };
 
-  #boot
+
+#boot
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+# boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.loader.timeout = 1;
-  # boot.initrd.verbose = false;
-  # boot.consoleLogLevel = 0;
-  # boot.kernelParams = ["quiet" "udev.log_level=0" "amdgpu"];
-  boot.kernelParams = ["amdgpu"];
-  # boot.plymouth = {
-  #   enable = true;
-  # };
+# boot.initrd.verbose = false;
+# boot.consoleLogLevel = 0;
+# boot.kernelParams = ["quiet" "udev.log_level=0" "amdgpu"];
+  boot.kernelParams = ["amdgpu" "amdgpu.dcdebugmask=0x10"];
+# boot.plymouth = {
+#   enable = true;
+# };
 
 
 
@@ -365,38 +376,41 @@ services.logind = {
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
+# If you want to use JACK applications, uncomment this
     jack.enable = true;
   };
 
   services.pipewire.wireplumber.configPackages = [
     (pkgs.writeTextDir "share/wireplumber/bluetooth.lua.d/51-bluez-config.lua" ''
-      bluez_monitor.properties = {
-      	["bluez5.enable-sbc-xq"] = true,
-      	["bluez5.enable-msbc"] = true,
-      	["bluez5.enable-hw-volume"] = true,
-      	["bluez5.headset-roles"] = "[ hsp_hs hsp_ag hfp_hf hfp_ag ]"
-      }
-    '')
+     bluez_monitor.properties = {
+     ["bluez5.enable-sbc-xq"] = true,
+     ["bluez5.enable-msbc"] = true,
+     ["bluez5.enable-hw-volume"] = true,
+     ["bluez5.headset-roles"] = "[ hsp_hs hsp_ag hfp_hf hfp_ag ]"
+     }
+     '')
   ];
 
   services.fstrim.enable = true;
- # networking.wg-quick.interfaces = {
- #    wg0 = {
- #      address = [ "192.168.99.2/24" ];
- #      dns = [ "1.1.1.1" ];
- #      privateKeyFile = "/root/wireguard-keys/privatekey";
- #      
- #      peers = [
- #        {
- #          publicKey = "{server public key}";
- #          presharedKeyFile = "/root/wireguard-keys/preshared_from_peer0_key";
- #          allowedIPs = [ "0.0.0.0/0" "::/0" ];
- #          endpoint = "{server ip}:51820";
- #          persistentKeepalive = 25;
- #        }
- #      ];
- #    };
- #  };
-
+  networking.wg-quick.interfaces = {
+    wg0 = {
+      autostart = false;
+      address = [ "192.168.99.20/24" ];
+      dns = [ "1.1.1.1" ];
+      privateKeyFile = "/home/fobos/wg";
+      peers = [
+      {
+        publicKey = "NcAhvpiJJQEttjJdP8aT4DJocX6jZObv4cBJiakZt3w=";
+        allowedIPs = [ "0.0.0.0/0" "::/0" ];
+        endpoint = "116.203.205.147:51820";
+        persistentKeepalive = 25;
+      }
+      ];
+    };
+  };
+  services.ollama = {
+    enable = false;
+    acceleration = "cuda";
+  };
 }
+
