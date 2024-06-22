@@ -22,11 +22,16 @@
        ];
        })
   foot
-#TODO: walker
+   walker
     anyrun
     mpv
-    swayimg
+    imv
 
+    krita
+
+    # yubikey-manager
+    yubikey-personalization
+    gnupg
 
     orca-slicer
 
@@ -158,6 +163,28 @@
       (nerdfonts.override {fonts = ["NerdFontsSymbolsOnly"];})
   ];
 
+services.udisks2.enable = true;
+
+  programs.ssh.startAgent = false;
+
+  programs.gnupg.agent = {
+  enable = true;
+  enableSSHSupport = true;
+};
+
+security.polkit = {
+  enable = true;
+};
+
+ environment.shellInit = ''
+    gpg-connect-agent /bye
+    export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+  '';
+
+services.pcscd.enable = true;
+services.udev.packages = [ pkgs.yubikey-personalization ];
+
+
   networking.hostName = "laptop";
   networking.hosts = {
     "192.168.1.50" = [ "srv" ];
@@ -179,6 +206,7 @@
   services.asusd.enable = true;
   services.upower.enable = true;
   programs.light.enable = true;
+
 
   programs.neovim = {
     enable = true;
@@ -261,6 +289,9 @@
     directory = {
       truncation_length = 5;
     };
+    nix_shell = {
+      disabled = false;
+    };
   };
 
   users = {
@@ -311,7 +342,11 @@ services.udev.extraRules = ''
   ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x040300", ATTR{power/control}="auto", ATTR{remove}="1"
   # Remove NVIDIA VGA/3D controller devices
   ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x03[0-9]*", ATTR{power/control}="auto", ATTR{remove}="1"
+
+  KERNEL=="ttyACM0", TAG+="uaccess", SYMLINK+="ttyACM0_fobos", MODE="0660", OWNER="fobos"
 '';
+
+
 boot.blacklistedKernelModules = [ "nouveau" "nvidia" "nvidia_drm" "nvidia_modeset" ];
 
 

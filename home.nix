@@ -1,4 +1,5 @@
 {
+  inputs,
   config,
   pkgs,
   ...
@@ -10,6 +11,7 @@ in {
 	imports = [
     ./xdg.nix
     ./nixos/firefox.nix
+    inputs.ags.homeManagerModules.default
   ];
 
   # home.activation.preActivation.setupDotfiles = pkgs.writeShellScriptBin "setup-dotfiles" ''
@@ -41,12 +43,29 @@ in {
   services.udiskie.enable = true;
   services.udiskie.automount = true;
   services.udiskie.notify = true;         
+  services.udiskie.tray = "always";         
+
+  programs.ags = {
+    enable = true;
+    extraPackages = with pkgs; [
+      gtksourceview
+      webkitgtk
+      accountsservice
+    ];
+  };
 
   services.playerctld.enable = true;
 
-  programs.git.enable = true;
-  programs.git.userName = "Oleksandr Yaroshenko";
-  programs.git.userEmail = "to@yof.sh";
+  programs.git = {
+  enable = true;
+  userName = "Oleksandr Yaroshenko";
+  userEmail = "to@yof.sh";
+  signing = {
+    key = "1B6E67640066F4B3";
+    signByDefault = true;
+  };
+};
+
 
   xdg.configFile = {
     "hypr/hyprland.conf".source = link "${dotfiles}/hypr/hyprland.conf";
