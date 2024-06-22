@@ -32,7 +32,7 @@
     };
 
     nixosConfigurations.medusa = nixpkgs.lib.nixosSystem {
-      inherit system;
+      system = "aarch64-linux";
       modules = [./hosts/medusa/configuration.nix];
     };
 

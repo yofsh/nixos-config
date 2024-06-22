@@ -5,7 +5,8 @@
     ...
 }: {
   imports = [
-    # ./hardware-configuration.nix
+    ./hardware-configuration.nix
+    ./networking.nix
     ./../../modules/base.nix
   ];
 
