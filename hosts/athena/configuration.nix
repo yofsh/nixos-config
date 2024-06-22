@@ -62,6 +62,7 @@
     dunst
     waybar
     gammastep
+    nvtop
 
 # Sound
     pipewire

@@ -37,7 +37,7 @@
     ncdu
     mtr
     # powertop
-    nvtop
+    # nvtop
     zellij
     s-tui
     pulsemixer
