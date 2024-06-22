@@ -26,7 +26,7 @@
       inputs.nur.overlay
     ];
 
-    nixosConfigurations.athena = nixpkgs.lib.nixosSystem {
+    nixosConfigurations.laptop = nixpkgs.lib.nixosSystem {
       inherit system;
       modules = [./hosts/athena/configuration.nix];
     };
