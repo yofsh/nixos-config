@@ -25,12 +25,10 @@
     "192.168.1.50" = [ "srv" ];
     "192.168.99.1" = [ "wghost" ];
     "116.203.205.147" = [ "vps" ];
-  };
+;
 
   time.timeZone = "Europe/Madrid";
   i18n.defaultLocale = "en_US.UTF-8";
-
-  system.stateVersion = "23.05";
 
   virtualisation.docker.enable = true;
   programs.virt-manager = {
