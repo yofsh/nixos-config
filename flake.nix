@@ -31,6 +31,11 @@
       modules = [./hosts/athena/configuration.nix];
     };
 
+    nixosConfigurations.medusa = nixpkgs.lib.nixosSystem {
+      inherit system;
+      modules = [./hosts/medusa/configuration.nix];
+    };
+
     homeConfigurations.fobos = home-manager.lib.homeManagerConfiguration {
       extraSpecialArgs = { inherit inputs; };
       inherit pkgs;

@@ -6,10 +6,21 @@
 }: {
   imports = [
     ./hardware-configuration.nix
-    ./../../modules/hardware-configuration.nix
+    ./../../modules/base.nix
   ];
 
+
+  nixpkgs.config = {
+    allowUnfree = true;
+  };
+
   environment.systemPackages = with pkgs; [
+      (google-chrome.override {
+       commandLineArgs = [
+       "--enable-features=UseOzonePlatform"
+       "--ozone-platform=wayland"
+       ];
+       })
     foot
       walker
       anyrun
