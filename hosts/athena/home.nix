@@ -10,7 +10,7 @@ in {
 
 	imports = [
     ./xdg.nix
-    ./nixos/firefox.nix
+    ./firefox.nix
     inputs.ags.homeManagerModules.default
   ];
 

@@ -17,29 +17,26 @@
 
   outputs = { self, nixpkgs, home-manager, nur, ... }@inputs:
 
-
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
     in {
 
-
     nixpkgs.overlays = [
       inputs.nur.overlay
     ];
 
-    nixosConfigurations.laptop = nixpkgs.lib.nixosSystem {
+    nixosConfigurations.athena = nixpkgs.lib.nixosSystem {
       inherit system;
-      modules = [./nixos/configuration.nix];
+      modules = [./hosts/athena/configuration.nix];
     };
 
     homeConfigurations.fobos = home-manager.lib.homeManagerConfiguration {
       extraSpecialArgs = { inherit inputs; };
       inherit pkgs;
       modules = [ 
-        ./home.nix
+        ./hosts/athena/home.nix
         {nixpkgs.overlays = [nur.overlay];}
-
       ];
     };
   };

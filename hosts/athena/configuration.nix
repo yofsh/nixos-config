@@ -6,110 +6,36 @@
 }: {
   imports = [
     ./hardware-configuration.nix
+    ./../../modules/hardware-configuration.nix
   ];
 
-  nixpkgs.config = {
-    allowUnfree = true;
-  };
-
   environment.systemPackages = with pkgs; [
-# Desktop apps
-    firefox
-      (google-chrome.override {
-       commandLineArgs = [
-       "--enable-features=UseOzonePlatform"
-       "--ozone-platform=wayland"
-       ];
-       })
-  foot
-   walker
-    anyrun
-    mpv
-    imv
-
-    krita
-
-    # yubikey-manager
-    yubikey-personalization
-    gnupg
-
-    orca-slicer
-
+    foot
+      walker
+      anyrun
+      mpv
+      imv
+      krita
+      yubikey-personalization
+      gnupg
+      orca-slicer
 # Coding stuff
-    gnumake
-    gcc
-    nodejs
-    python3
-    yarn
 
 #TUI utils
-    htop
-    glances
-    kmon
-    sysz
     bluetuith
-    lazygit
-    lazydocker
-    ncdu
-    diskonaut
-    mtr
     powertop
-    nvtop
-    zellij
-    s-tui
-    pulsemixer
-    lnav
-    yazi
-    gping
 
 # CLI utils
-    fastfetch
-    file
-    tree
-    wget
-    git
-    grc
-    nix-index
-    nix-inspect
-    nh
-    trash-cli
-    imagemagick
-
-    hyperfine
-    ripgrep
-    fd
-    bc
-    jq
-    qrencode
-    zoxide
-    fzf
-    exiftool
-    lshw
-    pngquant
     proxmark3
     rbw
-    smartmontools
-    wev
-    zbar
-
     bluez
     bluez-tools
     udiskie
 
-    ffmpeg
-    light
-    ntfs3g
-    yt-dlp
 
 # GUI utils
-    zsh
-    starship
 
 # Wayland stuff
-    xwayland
-    wl-clipboard
-    wtype
-# cliphist ?
 
 # WMs and stuff
     pyprland
@@ -119,8 +45,6 @@
     hypridle
     hyprpaper
     brightnessctl
-
-# seatd
     xdg-desktop-portal-hyprland
     xdg-user-dirs
     wdisplays
@@ -141,7 +65,6 @@
     slurp
     satty
     wf-recorder
-
     aichat
     plymouth
 
@@ -155,7 +78,6 @@
     jetbrains-mono
       noto-fonts
       noto-fonts-emoji
-# noto-fonts-emoji-blob-bin
       twemoji-color-font
       font-awesome
       powerline-fonts
@@ -163,14 +85,14 @@
       (nerdfonts.override {fonts = ["NerdFontsSymbolsOnly"];})
   ];
 
-services.udisks2.enable = true;
+  services.udisks2.enable = true;
 
   programs.ssh.startAgent = false;
 
   programs.gnupg.agent = {
-  enable = true;
-  enableSSHSupport = true;
-};
+    enable = true;
+    enableSSHSupport = true;
+  };
 
 security.polkit = {
   enable = true;
@@ -195,11 +117,10 @@ services.udev.packages = [ pkgs.yubikey-personalization ];
   time.timeZone = "Europe/Madrid";
   i18n.defaultLocale = "en_US.UTF-8";
 
-  nix.settings.experimental-features = ["nix-command" "flakes"]; # Enabling flakes
+  nix.settings.experimental-features = ["nix-command" "flakes"];
+  system.stateVersion = "23.05";
 
-    system.stateVersion = "23.05"; # Don't change it bro
-
-    virtualisation.docker.enable = true;
+  virtualisation.docker.enable = true;
   programs.virt-manager = {
     enable = true;
   };
@@ -208,25 +129,8 @@ services.udev.packages = [ pkgs.yubikey-personalization ];
   programs.light.enable = true;
 
 
-  programs.neovim = {
-    enable = true;
-    viAlias = true;
-    vimAlias = true;
-  };
 
   programs.noisetorch.enable = true;
-  programs.zsh = {
-    enable = true;
-    enableCompletion = true;
-    syntaxHighlighting = {
-      enable = true;
-      patterns = {"rm -rf *" = "fg=black,bg=red";};
-      styles = {"alias" = "fg=magenta";};
-      highlighters = ["main" "brackets" "pattern"];
-    };
-
-    autosuggestions.enable = true;
-  };
 
   programs.firefox.enable = true;
   programs.steam.enable = true;
@@ -238,8 +142,6 @@ services.udev.packages = [ pkgs.yubikey-personalization ];
     driSupport = true;
     driSupport32Bit = true;
   };
-
-
 
   programs.firefox.policies =   {
     NewTabPage = false;
@@ -274,42 +176,11 @@ services.udev.packages = [ pkgs.yubikey-personalization ];
   environment.sessionVariables.BROWSER = "firefox";
   environment.sessionVariables.EDITOR = "nvim";
 
-  programs.starship.enable = true;
-  programs.starship.settings = {
-    add_newline = false;
-    format = "$directory$character";
-    right_format = "$all";
-    character = {
-      success_symbol = "[>](bold green)";
-    };
-    cmd_duration = {
-      min_time = 100;
-      show_milliseconds = true;
-    };
-    directory = {
-      truncation_length = 5;
-    };
-    nix_shell = {
-      disabled = false;
-    };
-  };
-
-  users = {
-    defaultUserShell = pkgs.zsh;
-
-    users.fobos = {
-      isNormalUser = true;
-      description = "fobos";
-      extraGroups = ["networkmanager" "wheel" "input" "libvirtd" "docker" "video"];
-      packages = with pkgs; [];
-    };
-  };
-
   services.getty.autologinUser = "fobos";
 
-  services.logind = {
-    lidSwitch = "ignore";
-  };
+  # services.logind = {
+  #   lidSwitch = "ignore";
+  # };
 
 
 #boot
@@ -380,7 +251,6 @@ boot.blacklistedKernelModules = [ "nouveau" "nvidia" "nvidia_drm" "nvidia_modese
   };
 
   services.blueman.enable = true;
-  networking.networkmanager.enable = true;
 
   security.rtkit.enable = true;
   services.pipewire = {
