@@ -40,7 +40,7 @@
   services.openssh.enable = true;
   system.stateVersion = "23.11";
 
-  programs.starship.settings.add_newline = true;
+  programs.starship.settings.add_newline = lib.mkForce true;
 
   # networking.wg-quick.interfaces = {
   #   wg0 = {
