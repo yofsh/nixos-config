@@ -41,6 +41,8 @@
   system.stateVersion = "23.11";
 
   programs.starship.settings.add_newline = lib.mkForce true;
+  programs.starship.settings.format = lib.mkForce "$all$directory$character";
+  programs.starship.settings.right_format = lib.mkForce "";
 
   # networking.wg-quick.interfaces = {
   #   wg0 = {
