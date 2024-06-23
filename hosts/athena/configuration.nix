@@ -64,6 +64,11 @@
     gammastep
     nvtop
 
+    xwayland
+    wl-clipboard
+    wtype
+    wev
+
 # Sound
     pipewire
     pulseaudio

@@ -6,185 +6,63 @@
 }: {
 
   environment.systemPackages = with pkgs; [
-  # foot
-  #  walker
-  #   anyrun
-  #   mpv
-  #   imv
-  #
-  #   krita
-  #
-  #   yubikey-personalization
-  #   gnupg
-  #
-  #   orca-slicer
-  #
-# Coding stuff
     gnumake
-    gcc
-    nodejs
-    python3
-    yarn
+      gcc
+      nodejs
+      python3
+      yarn
 
-#TUI utils
-    htop
-    glances
-    kmon
-    sysz
-    # bluetuith
-    lazygit
-    lazydocker
-    ncdu
-    mtr
-    # powertop
-    # nvtop
-    zellij
-    s-tui
-    pulsemixer
-    lnav
-    yazi
-    gping
+      htop
+      glances
+      kmon
+      sysz
+      lazygit
+      lazydocker
+      ncdu
+      mtr
 
-# CLI utils
-    fastfetch
-    file
-    tree
-    wget
-    git
-    grc
-    nix-index
-    nix-inspect
-    nh
-    trash-cli
-    imagemagick
+      zellij
+      s-tui
+      pulsemixer
+      lnav
+      yazi
+      gping
 
-    hyperfine
-    ripgrep
-    fd
-    bc
-    jq
-    qrencode
-    zoxide
-    fzf
-    exiftool
-    lshw
-    pngquant
-    # proxmark3
-    # rbw
-    smartmontools
-    zbar
+      fastfetch
+      file
+      tree
+      wget
+      git
+      grc
+      nix-index
+      nix-inspect
+      nh
+      trash-cli
+      imagemagick
 
-    # bluez
-    # bluez-tools
-    # udiskie
-
-    ffmpeg
-    light
-    ntfs3g
-    yt-dlp
-
-# GUI utils
-    zsh
-    starship
-
-# Wayland stuff
-    xwayland
-    wl-clipboard
-    wtype
-    wev
-
-# WMs and stuff
-    # pyprland
-    # hyprpicker
-    # hyprcursor
-    # hyprlock
-    # hypridle
-    # hyprpaper
-    # brightnessctl
-    # xdg-desktop-portal-hyprland
-    # xdg-user-dirs
-    # wdisplays
-    # dunst
-    # waybar
-    # gammastep
-
-# Sound
-    # pipewire
-    # pulseaudio
-    # ncpamixer
-    # usbutils
-
-# GPU stuff
-
-# Screenshotting
-    # grim
-    # slurp
-    # satty
-    # wf-recorder
-
-    # aichat
-    # plymouth
-
-# Other
-    # home-manager
-    # materia-theme
-    # papirus-icon-theme
-    ];
-
-  # fonts.packages = with pkgs; [
-  #   jetbrains-mono
-  #     noto-fonts
-  #     noto-fonts-emoji
-  #     twemoji-color-font
-  #     font-awesome
-  #     powerline-fonts
-  #     powerline-symbols
-  #     (nerdfonts.override {fonts = ["NerdFontsSymbolsOnly"];})
-  # ];
-  #
-  # services.udisks2.enable = true;
-
-  # programs.ssh.startAgent = false;
-
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-# security.polkit = {
-#   enable = true;
-# };
-
- # environment.shellInit = ''
- #    gpg-connect-agent /bye
- #    export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
- #  '';
-
-# services.pcscd.enable = true;
-# services.udev.packages = [ pkgs.yubikey-personalization ];
+      hyperfine
+      ripgrep
+      fd
+      bc
+      jq
+      qrencode
+      zoxide
+      fzf
+      exiftool
+      lshw
+      pngquant
+      smartmontools
+      zbar
 
 
-  # networking.hostName = "laptop";
-  # networking.hosts = {
-  #   "192.168.1.50" = [ "srv" ];
-  #   "192.168.99.1" = [ "wghost" ];
-  #   "116.203.205.147" = [ "vps" ];
-  # };
+      ffmpeg
+      light
+      ntfs3g
+      yt-dlp
 
-  # time.timeZone = "Europe/Madrid";
-  # i18n.defaultLocale = "en_US.UTF-8";
-
-  # nix.settings.experimental-features = ["nix-command" "flakes"];
-  # system.stateVersion = "23.05";
-
-  # virtualisation.docker.enable = true;
-  # programs.virt-manager = {
-  #   enable = true;
-  # };
-  # services.asusd.enable = true;
-  # services.upower.enable = true;
-  # programs.light.enable = true;
-
+      zsh
+      starship
+      ];
 
   programs.neovim = {
     enable = true;
@@ -194,7 +72,6 @@
 
   networking.networkmanager.enable = true;
 
-  # programs.noisetorch.enable = true;
   programs.zsh = {
     enable = true;
     enableCompletion = true;
@@ -228,181 +105,38 @@
     };
   };
 
-  # programs.firefox.enable = true;
-  # programs.steam.enable = true;
-  # programs.steam.gamescopeSession.enable = true; 
-
-
-  # hardware.opengl = {
-  #   enable = true;
-  #   driSupport = true;
-  #   driSupport32Bit = true;
-  # };
-  #
-  #
-  #
-  # programs.firefox.policies =   {
-  #   NewTabPage = false;
-  #   CaptivePortal = true;
-  #   DisableFirefoxStudies = true;
-  #   DisablePocket = true;
-  #   DisableTelemetry = true;
-  #   NoDefaultBookmarks = true;
-  #   OfferToSaveLogins = false;
-  #   OfferToSaveLoginsDefault = false;
-  #   PasswordManagerEnabled = false;
-  #   FirefoxHome = {
-  #     Search = true;
-  #     Pocket = false;
-  #     Snippets = false;
-  #     TopSites = false;
-  #     Highlights = false;
-  #   };
-  #   UserMessaging = {
-  #     ExtensionRecommendations = false;
-  #     SkipOnboarding = true;
-  #   };
-  #   Preferences = {
-  #     "ui.key.menuAccessKeyFocuses" = { Status = "locked"; Value = false; };
-  #   };
-  # };
-
-#Hyprland
-  # programs.hyprland.enable = true;
-  # environment.sessionVariables.NIXOS_OZONE_WL = "1";
-  # environment.sessionVariables.WLR_NO_HARDWARE_CURSORS = "1";
-  # environment.sessionVariables.BROWSER = "firefox";
-  # environment.sessionVariables.EDITOR = "nvim";
-
-
   users = {
     defaultUserShell = pkgs.zsh;
 
     users.fobos = {
       isNormalUser = true;
+      createHome = true;
       description = "fobos";
       extraGroups = ["networkmanager" "wheel" "input" "libvirtd" "docker" "video"];
       packages = with pkgs; [];
+      openssh.authorizedKeys.keys = [''ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC1ZWtcOzD0v67ORNy6YxBQxwHtPu8q0IWNzhpvcMGXsxUD5veeRZtuQLSXXf3+0EA+r+iC0K+1gEXAhjjyyKKUVhjzgtSPd+eI85d+BRY/X+8y9EjxAx5I0BFpxI0uSvukhrqLnbzs0/EMjr2yxMPRf66KJ6gpevzW7q9AvAJsxCEOTI8Xv/6WJh+jnqU+BrB86qczcPWbUYuZCEEoQ9HTpPrIWeC0KSgSn94nAQYV3UZjbJSkELyIc2dDDxb9pP+60kr2/J6c4NeSRPWTPjAGdOFjcdqH7oRTLOLMQyk+JimPw8zkp7BDL2TCDpvcTj2RCF4zQ9QeVdyXFwbipKspiCCBl1mXM+mePNtak4jGgc7V9WQjKFz+7CTRoTEteAyIkM/FElxtlKUkxA55UQGh3SA4wxqF0ZbYVKtHgjMNO9uTPsbZy1c0Ixfq9eKIcoKQxNBRx0pavGmKrh9BAMoHPXOqztOrkAJ6ClQzr5eA7a1N23EayFJo/hHvz4ncYrcm+glW11wlTfNbvdHCDsfNcpczK9C+NDPOAI8BER4Q0NOZQ/7HtVnXu2MfXkzeoBX20Xpv8+Br3HJ/T1qQlSn2lkRy+gMFTVZaC/CkrWVpR/xTMU0Ac3T8kIAk34cpLZlH5DqX0Phzqxn+s7c4e/IpQt5RgLbBmwQ3dsp2BnFLlw== user@host'' ];
     };
+
   };
 
-  # services.getty.autologinUser = "fobos";
 
-  # services.logind = {
-  #   lidSwitch = "ignore";
-  # };
+  users.users.root.openssh.authorizedKeys.keys = [''ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC1ZWtcOzD0v67ORNy6YxBQxwHtPu8q0IWNzhpvcMGXsxUD5veeRZtuQLSXXf3+0EA+r+iC0K+1gEXAhjjyyKKUVhjzgtSPd+eI85d+BRY/X+8y9EjxAx5I0BFpxI0uSvukhrqLnbzs0/EMjr2yxMPRf66KJ6gpevzW7q9AvAJsxCEOTI8Xv/6WJh+jnqU+BrB86qczcPWbUYuZCEEoQ9HTpPrIWeC0KSgSn94nAQYV3UZjbJSkELyIc2dDDxb9pP+60kr2/J6c4NeSRPWTPjAGdOFjcdqH7oRTLOLMQyk+JimPw8zkp7BDL2TCDpvcTj2RCF4zQ9QeVdyXFwbipKspiCCBl1mXM+mePNtak4jGgc7V9WQjKFz+7CTRoTEteAyIkM/FElxtlKUkxA55UQGh3SA4wxqF0ZbYVKtHgjMNO9uTPsbZy1c0Ixfq9eKIcoKQxNBRx0pavGmKrh9BAMoHPXOqztOrkAJ6ClQzr5eA7a1N23EayFJo/hHvz4ncYrcm+glW11wlTfNbvdHCDsfNcpczK9C+NDPOAI8BER4Q0NOZQ/7HtVnXu2MfXkzeoBX20Xpv8+Br3HJ/T1qQlSn2lkRy+gMFTVZaC/CkrWVpR/xTMU0Ac3T8kIAk34cpLZlH5DqX0Phzqxn+s7c4e/IpQt5RgLbBmwQ3dsp2BnFLlw== user@host'' ];
 
-
-# #boot
-#   boot.loader.systemd-boot.enable = true;
-#   boot.loader.efi.canTouchEfiVariables = true;
-# # boot.kernelPackages = pkgs.linuxPackages_latest;
-#   boot.loader.timeout = 1;
-# # boot.initrd.verbose = false;
-# # boot.consoleLogLevel = 0;
-# # boot.kernelParams = ["quiet" "udev.log_level=0" "amdgpu"];
-#   boot.kernelParams = ["amdgpu" "amdgpu.dcdebugmask=0x10"];
-# # boot.plymouth = {
-# #   enable = true;
-# # };
-
-
-
-#disable GPU
-# boot.extraModprobeConfig = ''
-#   blacklist nouveau
-#   options nouveau modeset=0
-# '';
-#   
-# services.udev.extraRules = ''
-#   # Remove NVIDIA USB xHCI Host Controller devices, if present
-#   ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x0c0330", ATTR{power/control}="auto", ATTR{remove}="1"
-#   # Remove NVIDIA USB Type-C UCSI devices, if present
-#   ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x0c8000", ATTR{power/control}="auto", ATTR{remove}="1"
-#   # Remove NVIDIA Audio devices, if present
-#   ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x040300", ATTR{power/control}="auto", ATTR{remove}="1"
-#   # Remove NVIDIA VGA/3D controller devices
-#   ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x03[0-9]*", ATTR{power/control}="auto", ATTR{remove}="1"
-#
-#   KERNEL=="ttyACM0", TAG+="uaccess", SYMLINK+="ttyACM0_fobos", MODE="0660", OWNER="fobos"
-# '';
-#
-#
-# boot.blacklistedKernelModules = [ "nouveau" "nvidia" "nvidia_drm" "nvidia_modeset" ];
-#
-#
-#   # hardware.nvidia.prime = {
-#   #   offload = {
-#   #     enable = true;
-#   #     enableOffloadCmd = true;
-#   #   };
-#   #   nvidiaBusId = "PCI:69:0:0";
-#   #   amdgpuBusId = "PCI:01:0:0"; 
-#   # };
-#   # services.xserver.videoDrivers = ["nvidia"];
-#   # hardware.nvidia = {
-#   #   modesetting.enable = true;
-#   #   powerManagement.enable = false;
-#   #   powerManagement.finegrained = true;
-#   #   open = false;
-#   #   nvidiaSettings = true;
-#   #   package = config.boot.kernelPackages.nvidiaPackages.stable;
-#   # };
-#
-#   hardware.bluetooth = {
-#     enable = true;
-#     powerOnBoot = true;
-#     settings = {
-#       General = {
-#         Enable = "Source,Sink,Media,Socket";
-#         Experimental = true;
-#       };
-#     };
-#   };
-#
-#   services.blueman.enable = true;
-
-#   security.rtkit.enable = true;
-#   services.pipewire = {
-#     enable = true;
-#     alsa.enable = true;
-#     alsa.support32Bit = true;
-#     pulse.enable = true;
-# # If you want to use JACK applications, uncomment this
-#     jack.enable = true;
-#   };
-
-  # services.pipewire.wireplumber.configPackages = [
-  #   (pkgs.writeTextDir "share/wireplumber/bluetooth.lua.d/51-bluez-config.lua" ''
-  #    bluez_monitor.properties = {
-  #    ["bluez5.enable-sbc-xq"] = true,
-  #    ["bluez5.enable-msbc"] = true,
-  #    ["bluez5.enable-hw-volume"] = true,
-  #    ["bluez5.headset-roles"] = "[ hsp_hs hsp_ag hfp_hf hfp_ag ]"
-  #    }
-  #    '')
-  # ];
-  #
-  # services.fstrim.enable = true;
-  # networking.wg-quick.interfaces = {
-  #   wg0 = {
-  #     autostart = false;
-  #     address = [ "192.168.99.20/24" ];
-  #     dns = [ "1.1.1.1" ];
-  #     privateKeyFile = "/home/fobos/wg";
-  #     peers = [
-  #     {
-  #       publicKey = "NcAhvpiJJQEttjJdP8aT4DJocX6jZObv4cBJiakZt3w=";
-  #       allowedIPs = [ "0.0.0.0/0" "::/0" ];
-  #       endpoint = "116.203.205.147:51820";
-  #       persistentKeepalive = 25;
-  #     }
-  #     ];
-  #   };
-  # };
-  # services.ollama = {
-  #   enable = false;
-  #   acceleration = "cuda";
-  # };
+  security.sudo = {
+    enable = true;
+    extraRules = [{
+      commands = [
+      {
+        command = "${pkgs.systemd}/bin/reboot";
+        options = [ "NOPASSWD" ];
+      }
+      {
+        command = "${pkgs.systemd}/bin/poweroff";
+        options = [ "NOPASSWD" ];
+      }
+      ];
+      groups = [ "wheel" ];
+    }];
+  };
 }
 
