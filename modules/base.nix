@@ -105,6 +105,8 @@
     };
   };
 
+  //TODO: move most of the configuration to module options
+
   users = {
     defaultUserShell = pkgs.zsh;
 
