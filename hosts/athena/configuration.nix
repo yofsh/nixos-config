@@ -306,6 +306,20 @@ boot.blacklistedKernelModules = [ "nouveau" "nvidia" "nvidia_drm" "nvidia_modese
       }
       ];
     };
+    medusaWG = {
+      autostart = false;
+      address = [ "10.100.0.2" ];
+      dns = [ "1.1.1.1" ];
+      privateKeyFile = "/home/fobos/medusawg";
+      peers = [
+      {
+        publicKey = "CTeiSpj47ioFxSFTe9nVk0dZXLmoLpGxRWbwZ3wWXgk=";
+        allowedIPs = [ "0.0.0.0/0" "::/0" ];
+        endpoint = "65.21.153.166:51820";
+        persistentKeepalive = 25;
+      }
+      ];
+    };
   };
   services.ollama = {
     enable = false;
