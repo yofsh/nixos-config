@@ -42,6 +42,7 @@
 
       hyperfine
       ripgrep
+      eza
       fd
       bc
       jq
@@ -105,12 +106,13 @@
     };
   };
 
-  //TODO: move most of the configuration to module options
+  #TODO: move most of the configuration to module options
 
   users = {
     defaultUserShell = pkgs.zsh;
 
     users.fobos = {
+      useDefaultShell = true;
       isNormalUser = true;
       createHome = true;
       description = "fobos";
