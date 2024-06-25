@@ -8,6 +8,7 @@
     ./hardware-configuration.nix
     ./networking.nix
     ./../../modules/base.nix
+    ./../../modules/paperless-ngx.nix
   ];
 
   nixpkgs.config = {
