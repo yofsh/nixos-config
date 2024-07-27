@@ -18,6 +18,7 @@
       sysz
       lazygit
       lazydocker
+      docker-compose
       ncdu
       mtr
 

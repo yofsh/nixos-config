@@ -8,7 +8,7 @@
     ./hardware-configuration.nix
     ./networking.nix
     ./../../modules/base.nix
-    ./../../modules/paperless-ngx.nix
+    # ./../../modules/paperless-ngx.nix
   ];
 
   nixpkgs.config = {
@@ -37,8 +37,15 @@
   i18n.defaultLocale = "en_US.UTF-8";
 
   virtualisation.docker.enable = true;
-  programs.virt-manager = {
-    enable = true;
+
+
+  virtualisation.containers.enable = true;
+  virtualisation = {
+    podman = {
+      enable = false;
+      dockerCompat = true;
+      defaultNetwork.settings.dns_enabled = true;
+    };
   };
 
   boot.tmp.cleanOnBoot = true;
@@ -50,6 +57,7 @@
   programs.starship.settings.format = lib.mkForce "$all$directory$character";
   programs.starship.settings.right_format = lib.mkForce "";
 
+  networking.firewall.interfaces."wg0".allowedTCPPorts = [ 8000 ];
 
   services.nginx = {
     enable = true;
@@ -68,6 +76,45 @@
 	  addSSL = true;
 	  enableACME = true;
 	  root = "/var/www/yof.sh";
+    locations."/" = {
+      extraConfig = ''
+        add_header "Cross-Origin-Opener-Policy" "same-origin";
+      add_header "Cross-Origin-Embedder-Policy" "require-corp";
+  '';
+    };
+  };
+
+
+  services.nginx.virtualHosts."gpt.yof.sh" = {
+	  addSSL = true;
+	  enableACME = true;
+	  locations."/" = {
+	    proxyPass = "http://127.0.0.1:3002/";
+	    extraConfig = ''
+
+            # Adjust host and port as required.
+            #proxy_pass http://localhost:8000/;
+            # These configuration options are required for WebSockets to work.
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+
+            proxy_redirect off;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Host $server_name;
+            add_header Referrer-Policy "strict-origin-when-cross-origin";
+	    '';
+	  };
+	  
+  };
+
+
+  services.nginx.virtualHosts."paperless.yof.sh" = {
+	  addSSL = true;
+	  enableACME = true;
+	  locations."/".proxyPass = "http://127.0.0.1:8000/";
   };
 
   services.nginx.virtualHosts."yofsh.dev" = {
@@ -89,12 +136,25 @@
   };
 
 
+  users = {
+	  groups.share = {
+		  gid = 993;
+	  };
+	  users.share = {
+		  uid = 994;
+		  isSystemUser = true;
+		  group = "share";
+	  };
+
+};
   networking.nat.enable = true;
   networking.nat.externalInterface = "eth0";
   networking.nat.internalInterfaces = [ "wg0" ];
   networking.firewall = {
     allowedUDPPorts = [ 51820 ];
   };
+  services.fail2ban.enable = true;
+
 
   networking.wireguard.interfaces = {
     wg0 = {
