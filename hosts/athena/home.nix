@@ -62,7 +62,7 @@ in {
   userEmail = "to@yof.sh";
   signing = {
     key = "1B6E67640066F4B3";
-    signByDefault = true;
+    signByDefault = false;
   };
 };
 
@@ -77,6 +77,8 @@ in {
     "waybar/style.css".source = link "${dotfiles}/waybar/style.css";
     "dunst/dunstrc".source = link "${dotfiles}/dunst/dunstrc";
     "tridactyl/tridactylrc".source = link "${dotfiles}/firefox/tridactylrc";
+    "nvim".source =  link "${dotfiles}/nvim";
+    "yazi".source =  link "${dotfiles}/yazi";
   };
 
   home.file = {

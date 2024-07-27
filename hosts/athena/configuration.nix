@@ -89,6 +89,8 @@
     home-manager
     materia-theme
     papirus-icon-theme
+
+    godot_4
     ];
 
   fonts.packages = with pkgs; [
@@ -156,8 +158,8 @@ services.udev.packages = [ pkgs.yubikey-personalization ];
 
   hardware.opengl = {
     enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
+    # driSupport = true;
+    # driSupport32Bit = true;
   };
 
   programs.firefox.policies =   {
@@ -203,7 +205,7 @@ services.udev.packages = [ pkgs.yubikey-personalization ];
 #boot
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-# boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.loader.timeout = 1;
 # boot.initrd.verbose = false;
 # boot.consoleLogLevel = 0;
