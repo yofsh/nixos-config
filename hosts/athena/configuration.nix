@@ -21,9 +21,7 @@
        "--ozone-platform=wayland"
        ];
        })
-    foot
-      walker
-      anyrun
+      foot
       mpv
       imv
       krita
@@ -58,6 +56,7 @@
     brightnessctl
     xdg-desktop-portal-hyprland
     xdg-user-dirs
+    xdg-utils
     wdisplays
     dunst
     waybar
@@ -113,17 +112,26 @@
     enableSSHSupport = true;
   };
 
-security.polkit = {
-  enable = true;
-};
+  security.polkit = {
+    enable = true;
+  };
 
- environment.shellInit = ''
+  environment.shellInit = ''
     gpg-connect-agent /bye
     export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
   '';
 
-services.pcscd.enable = true;
-services.udev.packages = [ pkgs.yubikey-personalization ];
+  services.pcscd.enable = true;
+  services.udev.packages = [ pkgs.yubikey-personalization ];
+
+  services.interception-tools.enable = true;
+
+  services.interception-tools.udevmonConfig = ''
+- JOB: "intercept -g $DEVNODE | uinput -d $DEVNODE"
+DEVICE:
+  EVENTS:
+    EV_KEY: [KEY_LAUNCH2]
+  '';
 
 
   networking.hostName = "laptop";

@@ -1,19 +1,42 @@
 {
-  inputs,
-  config,
-  pkgs,
-  ...
+inputs,
+config,
+pkgs,
+...
 }: let
   link = config.lib.file.mkOutOfStoreSymlink;
   dotfiles = "${config.home.homeDirectory}/dotfiles";
 in {
 
-	imports = [
+  imports = [
     ./xdg.nix
     ./firefox.nix
     inputs.ags.homeManagerModules.default
+    inputs.walker.homeManagerModules.default
   ];
 
+  programs.walker = {
+    enable = true;
+    runAsService = true;
+
+    # All options from the config.json can be used here.
+    # config = {
+    #   search.placeholder = "Example";
+    #   ui.fullscreen = true;
+    #   list = {
+    #     height = 200;
+    #   };
+    #   websearch.prefix = "?";
+    #   switcher.prefix = "/";
+    # };
+
+    # If this is not set the default styling is used.
+    # style = ''
+    # * {
+    #   color: #dcd7ba;
+    # }
+    # '';
+  };
   # home.activation.preActivation.setupDotfiles = pkgs.writeShellScriptBin "setup-dotfiles" ''
   #       if [[ ! -d "$HOME/dotfiles" ]]; then
   #         git clone git@github.com:yofsh/dotfiles.git "$HOME/dotfiles"
@@ -57,14 +80,14 @@ in {
   services.playerctld.enable = true;
 
   programs.git = {
-  enable = true;
-  userName = "Oleksandr Yaroshenko";
-  userEmail = "to@yof.sh";
-  signing = {
-    key = "1B6E67640066F4B3";
-    signByDefault = false;
+    enable = true;
+    userName = "Oleksandr Yaroshenko";
+    userEmail = "to@yof.sh";
+    signing = {
+      key = "1B6E67640066F4B3";
+      signByDefault = false;
+    };
   };
-};
 
 
   xdg.configFile = {
@@ -129,11 +152,11 @@ in {
     };
   };
 
-systemd.user.targets.tray = {
-		Unit = {
-			Description = "Home Manager System Tray";
-			Requires = [ "graphical-session-pre.target" ];
-		};
-	};
+  systemd.user.targets.tray = {
+    Unit = {
+      Description = "Home Manager System Tray";
+      Requires = [ "graphical-session-pre.target" ];
+    };
+  };
 
 }

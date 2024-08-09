@@ -28,6 +28,7 @@
       lnav
       yazi
       gping
+      atac
 
       fastfetch
       file
