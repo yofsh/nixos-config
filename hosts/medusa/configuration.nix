@@ -57,7 +57,7 @@
   programs.starship.settings.format = lib.mkForce "$all$directory$character";
   programs.starship.settings.right_format = lib.mkForce "";
 
-  networking.firewall.interfaces."wg0".allowedTCPPorts = [ 8000 ];
+  networking.firewall.interfaces."wg0".allowedTCPPortRanges = [ { from = 80; to = 20000; } ];
 
   services.nginx = {
     enable = true;
@@ -73,12 +73,12 @@
 
 
   services.nginx.virtualHosts."yof.sh" = {
-	  addSSL = true;
+    forceSSL = true;
 	  enableACME = true;
 	  root = "/var/www/yof.sh";
     locations."/" = {
       extraConfig = ''
-        add_header "Cross-Origin-Opener-Policy" "same-origin";
+      add_header "Cross-Origin-Opener-Policy" "same-origin";
       add_header "Cross-Origin-Embedder-Policy" "require-corp";
   '';
     };
@@ -86,7 +86,7 @@
 
 
   services.nginx.virtualHosts."gpt.yof.sh" = {
-	  addSSL = true;
+    forceSSL = true;
 	  enableACME = true;
 	  locations."/" = {
 	    proxyPass = "http://127.0.0.1:3002/";
