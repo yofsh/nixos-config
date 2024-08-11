@@ -6,7 +6,6 @@
 }: {
   imports = [
     ./hardware-configuration.nix
-    ./networking.nix
     ./../../modules/base.nix
   ];
 
@@ -15,6 +14,9 @@
   };
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
+
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
   environment.systemPackages = with pkgs; [
   ];
@@ -28,7 +30,7 @@
 
   networking.firewall = {
 	  enable = true;
-	  allowedTCPPorts = [ 22 80 443 ];
+	  allowedTCPPorts = [ 22 80 443 8123];
   };
 
   time.timeZone = "Europe/Madrid";
@@ -40,19 +42,21 @@
   boot.tmp.cleanOnBoot = true;
   zramSwap.enable = true;
   services.openssh.enable = true;
-  system.stateVersion = "23.11";
+  system.stateVersion = "24.05";
 
   programs.starship.settings.add_newline = lib.mkForce true;
   programs.starship.settings.format = lib.mkForce "$all$directory$character";
   programs.starship.settings.right_format = lib.mkForce "";
 
-  networking.firewall.interfaces."wg0".allowedTCPPorts = [ 8000 ];
+  # networking.firewall.interfaces."wg0".allowedTCPPorts = [ 8000 ];
+
+
+  hardware.bluetooth.enable = true; # enables support for Bluetooth
+  hardware.bluetooth.powerOnBoot = true;
+
 
   networking.nat.enable = true;
-  networking.nat.externalInterface = "eth0";
-  networking.nat.internalInterfaces = [ "wg0" ];
-  networking.firewall = {
-    allowedUDPPorts = [ 51820 ];
-  };
+  # networking.nat.externalInterface = "eth0";
+  # networking.nat.internalInterfaces = [ "wg0" ];
 }
 

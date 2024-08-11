@@ -1,0 +1,36 @@
+networks:
+  default:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 10.5.0.0/16
+         gateway: 10.5.0.1
+services:
+  # mqtt:
+  #   container_name: mqtt
+  #   image: eclipse-mosquitto
+  #   restart: always
+  #   volumes:
+  #     - ./mqtt/config:/mosquitto/config
+  #     - ./mqtt/data:/mosquitto/data
+  #     - ./mqtt/log:/mosquitto/log
+  #   ports:
+  #     - 1883:1883
+  #     - 9001:9001
+  #   networks:
+  #     default:
+  #       ipv4_address: 10.5.0.3
+  ha:
+    container_name: ha
+    image: "ghcr.io/home-assistant/home-assistant:stable"
+    volumes:
+      - /run/dbus:/run/dbus:ro
+      - ./ha:/config
+      - ./media:/media
+      - /etc/localtime:/etc/localtime:ro
+    restart: unless-stopped
+    privileged: true
+    network_mode: host
+    environment:
+      - PUID=1000
+      - PGID=100

@@ -32,6 +32,11 @@
       modules = [./hosts/athena/configuration.nix];
     };
 
+    nixosConfigurations.hermes = nixpkgs.lib.nixosSystem {
+      inherit system;
+      modules = [./hosts/hermes/configuration.nix];
+    };
+
     nixosConfigurations.medusa = nixpkgs.lib.nixosSystem {
       system = "aarch64-linux";
       modules = [./hosts/medusa/configuration.nix];
