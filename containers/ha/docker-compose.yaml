@@ -6,20 +6,6 @@ networks:
        - subnet: 10.5.0.0/16
          gateway: 10.5.0.1
 services:
-  # mqtt:
-  #   container_name: mqtt
-  #   image: eclipse-mosquitto
-  #   restart: always
-  #   volumes:
-  #     - ./mqtt/config:/mosquitto/config
-  #     - ./mqtt/data:/mosquitto/data
-  #     - ./mqtt/log:/mosquitto/log
-  #   ports:
-  #     - 1883:1883
-  #     - 9001:9001
-  #   networks:
-  #     default:
-  #       ipv4_address: 10.5.0.3
   ha:
     container_name: ha
     image: "ghcr.io/home-assistant/home-assistant:stable"
@@ -34,3 +20,15 @@ services:
     environment:
       - PUID=1000
       - PGID=100
+  esphome:
+    image: ghcr.io/imagegenius/esphome:latest
+    container_name: esphome
+    network_mode: host
+    environment:
+      - PUID=1000
+      - PGID=100
+    volumes:
+      - ./esphome:/config
+    ports:
+      - 6052:6052
+    restart: unless-stopped

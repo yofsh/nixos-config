@@ -30,7 +30,7 @@
 
   networking.firewall = {
 	  enable = true;
-	  allowedTCPPorts = [ 22 80 443 8123];
+	  allowedTCPPorts = [ 22 80 443 8123 6052];
   };
 
   time.timeZone = "Europe/Madrid";
