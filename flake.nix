@@ -1,6 +1,5 @@
 {
-  description = "My system configuration";
-
+  description = "System config";
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nur.url = "github:nix-community/NUR";
@@ -23,32 +22,34 @@
       pkgs = nixpkgs.legacyPackages.${system};
     in {
 
-    nixpkgs.overlays = [
-      inputs.nur.overlay
-    ];
+      nixpkgs.overlays = [ inputs.nur.overlay ];
 
-    nixosConfigurations.laptop = nixpkgs.lib.nixosSystem {
-      inherit system;
-      modules = [./hosts/athena/configuration.nix];
-    };
+      #TODO: load config based on host name?
+      nixosConfigurations.ares = nixpkgs.lib.nixosSystem {
+        inherit system;
+        modules = [ ./hosts/ares/configuration.nix ];
+      };
 
-    nixosConfigurations.hermes = nixpkgs.lib.nixosSystem {
-      inherit system;
-      modules = [./hosts/hermes/configuration.nix];
-    };
+      nixosConfigurations.athena = nixpkgs.lib.nixosSystem {
+        inherit system;
+        modules = [ ./hosts/athena/configuration.nix ];
+      };
 
-    nixosConfigurations.medusa = nixpkgs.lib.nixosSystem {
-      system = "aarch64-linux";
-      modules = [./hosts/medusa/configuration.nix];
-    };
+      nixosConfigurations.hermes = nixpkgs.lib.nixosSystem {
+        inherit system;
+        modules = [ ./hosts/hermes/configuration.nix ];
+      };
 
-    homeConfigurations.fobos = home-manager.lib.homeManagerConfiguration {
-      extraSpecialArgs = { inherit inputs; };
-      inherit pkgs;
-      modules = [ 
-        ./hosts/athena/home.nix
-        {nixpkgs.overlays = [nur.overlay];}
-      ];
+      nixosConfigurations.medusa = nixpkgs.lib.nixosSystem {
+        system = "aarch64-linux";
+        modules = [ ./hosts/medusa/configuration.nix ];
+      };
+
+      homeConfigurations.fobos = home-manager.lib.homeManagerConfiguration {
+        extraSpecialArgs = { inherit inputs; };
+        inherit pkgs;
+        modules =
+          [ ./home/default.nix { nixpkgs.overlays = [ nur.overlay ]; } ];
+      };
     };
-  };
 }

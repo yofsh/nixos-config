@@ -1,36 +1,16 @@
-{
-  config,
-    lib,
-    pkgs,
-    ...
-}: {
-  imports = [
-    ./hardware-configuration.nix
-    ./../../modules/base.nix
-  ];
+{ config, lib, pkgs, ... }: {
+  imports = [ ./hardware-configuration.nix ./../../modules/base.nix ];
 
-  nixpkgs.config = {
-    allowUnfree = true;
-  };
+  networking.hostName = "hermes";
 
-  nix.settings.experimental-features = ["nix-command" "flakes"];
+  environment.systemPackages = with pkgs; [ ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  environment.systemPackages = with pkgs; [
-  ];
-
-  networking.hostName = "hermes";
-  networking.hosts = {
-    "192.168.1.50" = [ "srv" ];
-    "192.168.99.1" = [ "wghost" ];
-    "116.203.205.147" = [ "vps" ];
-  };
-
   networking.firewall = {
-	  enable = true;
-	  allowedTCPPorts = [ 22 80 443 8123 6052];
+    enable = false;
+    allowedTCPPorts = [ 22 80 443 8123 6052 ];
   };
 
   time.timeZone = "Europe/Madrid";
@@ -50,10 +30,8 @@
 
   # networking.firewall.interfaces."wg0".allowedTCPPorts = [ 8000 ];
 
-
   hardware.bluetooth.enable = true; # enables support for Bluetooth
   hardware.bluetooth.powerOnBoot = true;
-
 
   networking.nat.enable = true;
   # networking.nat.externalInterface = "eth0";
