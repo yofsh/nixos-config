@@ -20,9 +20,12 @@
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 
-  services.ollama = {
-    enable = true;
-    acceleration = "cuda";
+  virtualisation.containers.cdi.dynamic.nvidia.enable = true;
+  virtualisation.docker.enableNvidia =  true;
+  virtualisation.docker.daemon.settings = {
+    features = {
+      cdi = true;
+    };
   };
 }
 
