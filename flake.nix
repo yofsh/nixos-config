@@ -13,9 +13,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     ags.url = "github:Aylur/ags";
+    sops-nix.url = "github:Mic92/sops-nix";
   };
 
-  outputs = { self, nixpkgs, home-manager, nur, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, nur, sops-nix, ... }@inputs:
 
     let
       system = "x86_64-linux";
@@ -32,7 +33,7 @@
 
       nixosConfigurations.athena = nixpkgs.lib.nixosSystem {
         inherit system;
-        modules = [ ./hosts/athena/configuration.nix ];
+        modules = [ ./hosts/athena/configuration.nix sops-nix.nixosModules.sops ];
       };
 
       nixosConfigurations.hermes = nixpkgs.lib.nixosSystem {
