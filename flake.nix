@@ -25,6 +25,15 @@
 
       nixpkgs.overlays = [ inputs.nur.overlay ];
 
+      nixosConfigurations.iso = nixpkgs.lib.nixosSystem {
+        inherit system;
+        modules = [
+          ./hosts/iso/configuration.nix
+          ./home/default.nix
+          { nixpkgs.overlays = [ nur.overlay ]; }
+        ];
+      };
+
       #TODO: load config based on host name?
       nixosConfigurations.ares = nixpkgs.lib.nixosSystem {
         inherit system;
@@ -33,7 +42,8 @@
 
       nixosConfigurations.athena = nixpkgs.lib.nixosSystem {
         inherit system;
-        modules = [ ./hosts/athena/configuration.nix sops-nix.nixosModules.sops ];
+        modules =
+          [ ./hosts/athena/configuration.nix sops-nix.nixosModules.sops ];
       };
 
       nixosConfigurations.hermes = nixpkgs.lib.nixosSystem {

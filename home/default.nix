@@ -1,9 +1,5 @@
-{
-inputs,
-config,
-pkgs,
-...
-}: let
+{ inputs, config, pkgs, lib, ... }:
+let
   link = config.lib.file.mkOutOfStoreSymlink;
   dotfiles = "${config.home.homeDirectory}/dotfiles";
 in {
@@ -37,23 +33,18 @@ in {
     # }
     # '';
   };
-  # home.activation.preActivation.setupDotfiles = pkgs.writeShellScriptBin "setup-dotfiles" ''
-  #       if [[ ! -d "$HOME/dotfiles" ]]; then
-  #         git clone git@github.com:yofsh/dotfiles.git "$HOME/dotfiles"
-  #       fi
-  #     '';
-  #   };
-  # };
+  home.activation.setupDotfiles = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    echo "=QQQQQQQQ= Running pre activation script"
+    if [[ ! -d "$HOME/dotfiles" ]]; then
+      git clone git@github.com:yofsh/dotfiles.git "$HOME/dotfiles"
+    fi
+  '';
 
   home.username = "fobos";
   home.homeDirectory = "/home/fobos";
 
   # Packages that should be installed to the user profile.
-  home.packages = [
-    pkgs.libnotify
-    pkgs.alejandra
-    pkgs.playerctl
-  ];
+  home.packages = [ pkgs.libnotify pkgs.alejandra pkgs.playerctl ];
 
   home.stateVersion = "24.05";
 
@@ -65,16 +56,12 @@ in {
 
   services.udiskie.enable = true;
   services.udiskie.automount = true;
-  services.udiskie.notify = true;         
-  services.udiskie.tray = "always";         
+  services.udiskie.notify = true;
+  services.udiskie.tray = "always";
 
   programs.ags = {
     enable = true;
-    extraPackages = with pkgs; [
-      gtksourceview
-      webkitgtk
-      accountsservice
-    ];
+    extraPackages = with pkgs; [ gtksourceview webkitgtk accountsservice ];
   };
 
   services.playerctld.enable = true;
@@ -89,7 +76,6 @@ in {
     };
   };
 
-
   xdg.configFile = {
     "hypr/hyprland.conf".source = link "${dotfiles}/hypr/hyprland.conf";
     "hypr/hyprlock.conf".source = link "${dotfiles}/hypr/hyprlock.conf";
@@ -100,12 +86,13 @@ in {
     "waybar/style.css".source = link "${dotfiles}/waybar/style.css";
     "dunst/dunstrc".source = link "${dotfiles}/dunst/dunstrc";
     "tridactyl/tridactylrc".source = link "${dotfiles}/firefox/tridactylrc";
-    "nvim".source =  link "${dotfiles}/nvim";
-    "yazi".source =  link "${dotfiles}/yazi";
+    "nvim".source = link "${dotfiles}/nvim";
+    "yazi".source = link "${dotfiles}/yazi";
   };
 
   home.file = {
-    ".config/testfile".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/testfile";
+    ".config/testfile".source = config.lib.file.mkOutOfStoreSymlink
+      "${config.home.homeDirectory}/dotfiles/testfile";
     ".zshrc".source = link "${dotfiles}/.zshrc";
   };
 
