@@ -29,8 +29,13 @@
         inherit system;
         modules = [
           ./hosts/iso/configuration.nix
-          ./home/default.nix
-          { nixpkgs.overlays = [ nur.overlay ]; }
+
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.fobos = import ./home/default.nix;
+          }
         ];
       };
 

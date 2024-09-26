@@ -7,6 +7,7 @@
     gnumake
     gcc
     nodejs
+    pnpm
     python3
     yarn
 

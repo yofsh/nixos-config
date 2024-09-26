@@ -3,9 +3,12 @@
   imports = [
     "${modulesPath}/installer/cd-dvd/installation-cd-minimal.nix"
     ./../../modules/base.nix
+    ./../../modules/desktop.nix
   ];
 
   nixpkgs.hostPlatform = "x86_64-linux";
+
+
 
 
 }

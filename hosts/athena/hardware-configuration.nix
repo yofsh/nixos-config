@@ -8,34 +8,36 @@
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
-  boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "thunderbolt" "usbhid" "usb_storage" "sd_mod" "sdhci_pci" ];
-  boot.initrd.kernelModules = [ ];
+  boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "usb_storage" "sd_mod" ];
+  boot.initrd.kernelModules = [ "amdgpu" ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/fca81fe2-a5c9-43d2-9a26-7bcf3f35fc31";
+    { device = "/dev/disk/by-uuid/41a9e4e2-8dcf-4827-b721-6c900e43992d";
       fsType = "ext4";
     };
 
-  boot.initrd.luks.devices."crypted".device = "/dev/disk/by-uuid/4c6399f1-55b9-4c88-8337-82bcbb9209e2";
+  boot.initrd.luks.devices."crypted".device = "/dev/disk/by-uuid/bdb593c8-cd08-4d0d-9fde-392449828435";
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/597E-B222";
+    { device = "/dev/disk/by-uuid/1D27-8C2E";
       fsType = "vfat";
       options = [ "fmask=0022" "dmask=0022" ];
     };
 
-  swapDevices =
-    [ { device = "/dev/disk/by-uuid/fd8b4255-852d-42ae-815c-1d2ba08ac479"; }
-    ];
+  swapDevices = [ ];
+
+  services.xserver.videoDrivers = [ "amdgpu" ];
+  boot.kernelParams = [ "amdgpu" ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
   # still possible to use this option, but it's recommended to use it in conjunction
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.wlp6s0.useDHCP = lib.mkDefault true;
+  # networking.interfaces.docker0.useDHCP = lib.mkDefault true;
+  # networking.interfaces.wlp1s0.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;

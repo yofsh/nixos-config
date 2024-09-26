@@ -28,6 +28,7 @@
     bluez
     bluez-tools
     udiskie
+    socat
 
     # WMs and stuff
     pyprland
@@ -44,6 +45,7 @@
     dunst
     waybar
     gammastep
+    walker
 
     xwayland
     wl-clipboard
@@ -91,8 +93,8 @@
   security.rtkit.enable = true;
 
   # Virtualisation
-  virtualisation.docker.enable = true;
-  programs.virt-manager = { enable = true; };
+  # virtualisation.docker.enable = true;
+  # programs.virt-manager = { enable = true; };
 
   # Software
   programs.noisetorch.enable = true;
@@ -137,16 +139,21 @@
   environment.sessionVariables.BROWSER = "firefox";
   environment.sessionVariables.EDITOR = "nvim";
 
-  services.getty.autologinUser = "fobos";
+  services.getty.autologinUser = lib.mkForce "fobos";
 
+networking.wireless.enable = lib.mkForce false;
   # Boot
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  # boot.loader.systemd-boot.enable = true;
+  # boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.loader.timeout = 1;
+  boot.loader.timeout = lib.mkForce 1;
 
   # Graphics
-  hardware.opengl = { enable = true; };
+hardware.graphics = {
+  enable = true;
+  enable32Bit = true;
+};
+
 
   # Wireless
   services.blueman.enable = true;

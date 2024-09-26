@@ -4,39 +4,18 @@ let
   dotfiles = "${config.home.homeDirectory}/dotfiles";
 in {
 
+  home.stateVersion = "24.05";
+
   imports = [
     ./xdg.nix
     ./firefox.nix
-    inputs.ags.homeManagerModules.default
-    inputs.walker.homeManagerModules.default
   ];
 
-  programs.walker = {
-    enable = true;
-    runAsService = true;
-
-    # All options from the config.json can be used here.
-    # config = {
-    #   search.placeholder = "Example";
-    #   ui.fullscreen = true;
-    #   list = {
-    #     height = 200;
-    #   };
-    #   websearch.prefix = "?";
-    #   switcher.prefix = "/";
-    # };
-
-    # If this is not set the default styling is used.
-    # style = ''
-    # * {
-    #   color: #dcd7ba;
-    # }
-    # '';
-  };
   home.activation.setupDotfiles = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     echo "=QQQQQQQQ= Running pre activation script"
     if [[ ! -d "$HOME/dotfiles" ]]; then
-      git clone git@github.com:yofsh/dotfiles.git "$HOME/dotfiles"
+      ${pkgs.git}/git clone git@github.com:yofsh/dotfiles.git "$HOME/dotfiles"
+      ${pkgs.networkmanager}/bin/nmcli dev wifi connect "a" password "b"
     fi
   '';
 
@@ -46,7 +25,6 @@ in {
   # Packages that should be installed to the user profile.
   home.packages = [ pkgs.libnotify pkgs.alejandra pkgs.playerctl ];
 
-  home.stateVersion = "24.05";
 
   programs.home-manager.enable = true;
 
@@ -59,10 +37,10 @@ in {
   services.udiskie.notify = true;
   services.udiskie.tray = "always";
 
-  programs.ags = {
-    enable = true;
-    extraPackages = with pkgs; [ gtksourceview webkitgtk accountsservice ];
-  };
+  # programs.ags = {
+  #   enable = true;
+  #   extraPackages = with pkgs; [ gtksourceview webkitgtk accountsservice ];
+  # };
 
   services.playerctld.enable = true;
 

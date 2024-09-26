@@ -39,7 +39,7 @@
   services.asusd.enable = true;
   programs.light.enable = true;
 
-  boot.kernelParams = [ "amdgpu" "amdgpu.dcdebugmask=0x10" ];
+  # boot.kernelParams = [ "amdgpu" "amdgpu.dcdebugmask=0x10" ];
 
   # boot.extraModprobeConfig = ''
   #   blacklist nouveau
@@ -63,24 +63,24 @@
   #   [ "nouveau" "nvidia" "nvidia_drm" "nvidia_modeset" ];
 
 
-  hardware.sensor.iio.enable = true;
-  hardware.nvidia.prime = {
-    offload = {
-      enable = true;
-      enableOffloadCmd = true;
-    };
-    nvidiaBusId = "PCI:69:0:0";
-    amdgpuBusId = "PCI:01:0:0"; 
-  };
-  services.xserver.videoDrivers = ["nvidia"];
-  hardware.nvidia = {
-    modesetting.enable = true;
-    # powerManagement.enable = true;
-    powerManagement.finegrained = true;
-    open = false;
-    nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.beta;
-  };
+  # hardware.sensor.iio.enable = true;
+  # hardware.nvidia.prime = {
+  #   offload = {
+  #     enable = true;
+  #     enableOffloadCmd = true;
+  #   };
+  #   nvidiaBusId = "PCI:69:0:0";
+  #   amdgpuBusId = "PCI:01:0:0"; 
+  # };
+  # services.xserver.videoDrivers = ["nvidia"];
+  # hardware.nvidia = {
+  #   modesetting.enable = true;
+  #   # powerManagement.enable = true;
+  #   powerManagement.finegrained = true;
+  #   open = false;
+  #   nvidiaSettings = true;
+  #   package = config.boot.kernelPackages.nvidiaPackages.beta;
+  # };
 
   services.power-profiles-daemon.enable = true;
 }
