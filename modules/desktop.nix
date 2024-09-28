@@ -141,10 +141,10 @@
 
   services.getty.autologinUser = lib.mkForce "fobos";
 
-networking.wireless.enable = lib.mkForce false;
+  networking.wireless.enable = lib.mkForce false;
   # Boot
-  # boot.loader.systemd-boot.enable = true;
-  # boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.loader.timeout = lib.mkForce 1;
 

@@ -8,6 +8,7 @@
     yaml-language-server
     bash-language-server
     typescript-language-server
+    typescript
     bash-language-server
     stylua
     nixd
