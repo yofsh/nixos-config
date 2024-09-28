@@ -9,8 +9,8 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.firewall = {
-    enable = false;
-    allowedTCPPorts = [ 22 80 443 8123 6052 ];
+	  enable = false;
+	  allowedTCPPorts = [ 22 80 443 8123 6052 5010 5000];
   };
 
   time.timeZone = "Europe/Madrid";
@@ -34,6 +34,7 @@
   hardware.bluetooth.powerOnBoot = true;
 
   networking.nat.enable = true;
+  powerManagement.powertop.enable = true;
   # networking.nat.externalInterface = "eth0";
   # networking.nat.internalInterfaces = [ "wg0" ];
 }
