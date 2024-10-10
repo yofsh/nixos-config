@@ -29,6 +29,7 @@
     bluez-tools
     udiskie
     socat
+    libqalculate
 
     # WMs and stuff
     pyprland
@@ -45,6 +46,7 @@
     dunst
     waybar
     gammastep
+    geoclue2
     walker
 
     xwayland

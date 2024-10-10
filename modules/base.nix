@@ -23,6 +23,7 @@
 
     zellij
     s-tui
+    stress
     pulsemixer
     lnav
     yazi
@@ -40,6 +41,7 @@
     nh
     trash-cli
     imagemagick
+    lm_sensors
 
     hyperfine
     ripgrep

@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }: {
   environment.systemPackages = with pkgs; [
     stylua
-    nixfmt
+    nixfmt-classic
     shfmt
     yq
     lua-language-server

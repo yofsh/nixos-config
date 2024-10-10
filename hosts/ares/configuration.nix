@@ -1,4 +1,5 @@
-{ config, lib, pkgs, ... }: {
+{ config, inputs, lib, pkgs, ... }: {
+
   imports = [
     ./hardware-configuration.nix
     ./../../modules/base.nix
@@ -11,6 +12,7 @@
 
   services.udisks2.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
+
   hardware.nvidia = {
     modesetting.enable = true;
     powerManagement.enable = true;
@@ -22,10 +24,13 @@
 
   virtualisation.containers.cdi.dynamic.nvidia.enable = true;
   virtualisation.docker.enableNvidia =  true;
+  hardware.nvidia-container-toolkit.enable = true;
   virtualisation.docker.daemon.settings = {
     features = {
       cdi = true;
     };
   };
+
+  services.power-profiles-daemon.enable = true;
 }
 

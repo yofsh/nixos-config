@@ -55,17 +55,14 @@ in {
   };
 
   xdg.configFile = {
-    "hypr/hyprland.conf".source = link "${dotfiles}/hypr/hyprland.conf";
-    "hypr/hyprlock.conf".source = link "${dotfiles}/hypr/hyprlock.conf";
-    "hypr/hypridle.conf".source = link "${dotfiles}/hypr/hypridle.conf";
-    "hypr/hyprpaper.conf".source = link "${dotfiles}/hypr/hyprpaper.conf";
     "foot/foot.ini".source = link "${dotfiles}/foot/foot.ini";
-    "waybar/config".source = link "${dotfiles}/waybar/config";
-    "waybar/style.css".source = link "${dotfiles}/waybar/style.css";
     "dunst/dunstrc".source = link "${dotfiles}/dunst/dunstrc";
     "tridactyl/tridactylrc".source = link "${dotfiles}/firefox/tridactylrc";
     "nvim".source = link "${dotfiles}/nvim";
+    "walker".source = link "${dotfiles}/walker";
     "yazi".source = link "${dotfiles}/yazi";
+    "hypr".source = link "${dotfiles}/hypr";
+    "waybar".source = link "${dotfiles}/waybar";
   };
 
   home.file = {
@@ -95,8 +92,8 @@ in {
     };
 
     iconTheme = {
-      package = pkgs.paper-icon-theme;
-      name = "Paper";
+      package = pkgs.papirus-icon-theme;
+      name = "Papirus";
     };
 
     font = {
