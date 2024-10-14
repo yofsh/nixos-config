@@ -66,8 +66,6 @@ in {
   };
 
   home.file = {
-    ".config/testfile".source = config.lib.file.mkOutOfStoreSymlink
-      "${config.home.homeDirectory}/dotfiles/testfile";
     ".zshrc".source = link "${dotfiles}/.zshrc";
   };
 
@@ -78,7 +76,6 @@ in {
 
   home.pointerCursor = {
     gtk.enable = true;
-    # x11.enable = true;
     package = pkgs.bibata-cursors;
     name = "Bibata-Modern-Classic";
     size = 32;

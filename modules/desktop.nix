@@ -30,6 +30,8 @@
     udiskie
     socat
     libqalculate
+    tesseract
+    bat
 
     # WMs and stuff
     pyprland
