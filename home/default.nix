@@ -6,10 +6,7 @@ in {
 
   home.stateVersion = "24.05";
 
-  imports = [
-    ./xdg.nix
-    ./firefox.nix
-  ];
+  imports = [ ./xdg.nix ./firefox.nix ];
 
   home.activation.setupDotfiles = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     echo "=QQQQQQQQ= Running pre activation script"
@@ -24,7 +21,6 @@ in {
 
   # Packages that should be installed to the user profile.
   home.packages = [ pkgs.libnotify pkgs.alejandra pkgs.playerctl ];
-
 
   programs.home-manager.enable = true;
 
@@ -43,6 +39,18 @@ in {
   # };
 
   services.playerctld.enable = true;
+
+  programs.git.difftastic.enable = true;
+  # programs.git.diff-so-fancy.enable = true;
+
+  programs.lazygit.enable = true;
+  # programs.lazygit.settings = { git.paging = { pager = "diff-so-fancy"; }; };
+  programs.lazygit.settings = {
+    git.paging.externalDiffCommand =
+      "difft --color=always --display=side-by-side-show-both";
+    gui.sidePanelWidth = 0.2;
+    gui.border = "hidden";
+  };
 
   programs.git = {
     enable = true;

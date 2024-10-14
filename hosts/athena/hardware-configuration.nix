@@ -26,7 +26,10 @@
       options = [ "fmask=0022" "dmask=0022" ];
     };
 
-  swapDevices = [ ];
+ swapDevices = [{
+    device = "/swapfile";
+    size = 16 * 1024; # 16GB
+  }];
 
   services.xserver.videoDrivers = [ "amdgpu" ];
   boot.kernelParams = [ "amdgpu" ];
