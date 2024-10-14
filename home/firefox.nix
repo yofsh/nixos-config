@@ -285,7 +285,11 @@ in {
           border-radius: 5px;
           color: white;
         }
-
+        .tabbrowser-tab[usercontextid] > .tab-stack > .tab-background > .tab-context-line {
+          height: 100% !important;
+          margin: 0 !important;
+          opacity: 0.4;
+        }
       '';
     };
   };
